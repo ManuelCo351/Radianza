@@ -1,342 +1,406 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RADIANZA | Dark Luxury Resin</title>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RADIANZA – Resina epoxi artesanal de lujo. Piezas únicas hechas a mano en Caleta Olivia, Argentina." />
+  <title>RADIANZA | Dark Luxury Resin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#050510',
+            'deep-blue': '#0f172a',
+            gold: '#d4af37',
+            'gold-light': '#f0d060',
+            'gold-dim': '#9a7d20',
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            montserrat: ['Montserrat', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-midnight text-white overflow-x-hidden">
-    
-    <!-- LOADER -->
-    <div id="loader" class="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
-        <div class="loader-content">
-            <h1 class="text-6xl md:text-8xl font-cinzel font-bold text-gold tracking-widest">RADIANZA</h1>
-            <div class="loader-line mt-8"></div>
-        </div>
+
+<body class="bg-midnight text-white font-montserrat overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════
+       LOADER
+  ═══════════════════════════════════════════ -->
+  <div id="loader" class="loader-screen" aria-hidden="true">
+    <div class="loader-logo font-cinzel">
+      <span class="loader-r">R</span><span class="loader-rest">ADIANZA</span>
+    </div>
+    <p class="loader-tagline font-montserrat">Dark Luxury Resin</p>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section id="inicio" class="hero-section relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-6">
+
+    <!-- Animated blobs -->
+    <div class="blob blob-gold" aria-hidden="true"></div>
+    <div class="blob blob-blue" aria-hidden="true"></div>
+    <div class="blob blob-gold-2" aria-hidden="true"></div>
+
+    <!-- Grain overlay -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <!-- Hero content -->
+    <div class="hero-content relative z-10 text-center max-w-2xl mx-auto">
+      <p class="hero-eyebrow stagger-1 font-montserrat text-xs tracking-[0.35em] uppercase text-gold/70 mb-6">
+        Caleta Olivia · Patagonia Argentina
+      </p>
+      <h1 class="hero-title stagger-2 font-cinzel text-6xl sm:text-7xl md:text-8xl font-black leading-none mb-4">
+        <span class="block text-white">RADI</span>
+        <span class="block gold-gradient-text">ANZA</span>
+      </h1>
+      <p class="hero-subtitle stagger-3 font-montserrat font-light text-sm sm:text-base text-white/60 leading-relaxed mb-10 max-w-sm mx-auto">
+        Piezas de resina epoxi únicas, hechas a mano.<br>
+        Donde el lujo oscuro se encuentra con el arte artesanal.
+      </p>
+      <div class="stagger-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="#taller" class="btn-primary font-montserrat font-semibold text-xs tracking-widest uppercase">
+          Diseñá tu pieza
+        </a>
+        <a href="#filosofia" class="btn-ghost font-montserrat font-light text-xs tracking-widest uppercase text-white/50">
+          Nuestra esencia ↓
+        </a>
+      </div>
     </div>
 
-    <!-- HERO SECTION -->
-    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- Animated Blobs Background -->
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-        
-        <div class="hero-content relative z-10 text-center px-6 max-w-6xl mx-auto">
-            <span class="hero-subtitle block text-gold text-sm md:text-base tracking-[0.3em] mb-6 font-montserrat font-light uppercase opacity-0">Caleta Olivia, Argentina</span>
-            <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-cinzel font-black mb-6 leading-tight opacity-0">
-                Dark Luxury<br/>
-                <span class="text-gold">En Resina</span>
-            </h1>
-            <p class="hero-description text-lg md:text-xl text-gray-300 font-montserrat font-light max-w-2xl mx-auto mb-12 opacity-0">
-                Creaciones únicas en resina epoxi. Personaliza tu estilo con piezas que combinan elegancia oscura y detalles dorados.
-            </p>
-            <button class="hero-cta inline-block bg-gold text-midnight px-12 py-4 rounded-full font-montserrat font-semibold text-lg hover:bg-opacity-90 transition-all duration-300 opacity-0 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50">
-                Explorar Taller
-            </button>
+    <!-- Scroll hint -->
+    <div class="absolute bottom-28 left-1/2 -translate-x-1/2 stagger-5">
+      <div class="scroll-indicator" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FILOSOFÍA / ABOUT
+  ═══════════════════════════════════════════ -->
+  <section id="filosofia" class="py-24 px-6 relative">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <span class="section-label">Nuestra esencia</span>
+          <h2 class="font-cinzel text-4xl sm:text-5xl font-bold leading-tight mt-4 mb-6">
+            Arte que<br><span class="gold-gradient-text">trasciende</span>
+          </h2>
+          <p class="font-montserrat font-light text-white/60 leading-loose text-sm mb-6">
+            En RADIANZA transformamos lo ordinario en extraordinario. Cada pieza de resina epoxi es un universo contenido: flores que no mueren, galaxias atrapadas en vidrio, iniciales que cuentan historias.
+          </p>
+          <p class="font-montserrat font-light text-white/60 leading-loose text-sm">
+            Nacidas en la Patagonia argentina, nuestras piezas llevan el alma del viento y la vastedad del sur.
+          </p>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator opacity-0">
-            <div class="w-6 h-10 border-2 border-gold/50 rounded-full flex justify-center pt-2">
-                <div class="w-1 h-3 bg-gold rounded-full animate-bounce"></div>
-            </div>
+        <!-- Stats glass cards -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="glass-card text-center p-6">
+            <span class="font-cinzel text-3xl font-bold gold-gradient-text block">100%</span>
+            <span class="font-montserrat text-xs text-white/40 mt-2 block tracking-wider uppercase">Artesanal</span>
+          </div>
+          <div class="glass-card text-center p-6">
+            <span class="font-cinzel text-3xl font-bold gold-gradient-text block">∞</span>
+            <span class="font-montserrat text-xs text-white/40 mt-2 block tracking-wider uppercase">Diseños únicos</span>
+          </div>
+          <div class="glass-card text-center p-6 col-span-2">
+            <span class="font-cinzel text-2xl font-bold text-white/80 block">Caleta Olivia</span>
+            <span class="font-montserrat text-xs text-white/40 mt-2 block tracking-wider uppercase">Santa Cruz · Patagonia</span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about" class="relative py-20 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="glass-card p-8 md:p-12 rounded-3xl">
-                    <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Sobre Nosotros</span>
-                    <h2 class="text-4xl md:text-5xl font-cinzel font-bold mb-6">La Esencia de <span class="text-gold">RADIANZA</span></h2>
-                    <p class="text-gray-300 font-montserrat leading-relaxed mb-6">
-                        Cada pieza es una obra de arte diseñada para reflejar tu personalidad. Utilizamos resina epoxi de alta calidad y técnicas artesanales para crear accesorios únicos.
-                    </p>
-                    <p class="text-gray-300 font-montserrat leading-relaxed">
-                        Desde Caleta Olivia, Argentina, llevamos el concepto de <span class="text-gold font-semibold">Dark Luxury</span> a otro nivel.
-                    </p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
-                        <div class="text-4xl mb-4">✨</div>
-                        <h3 class="font-cinzel text-xl mb-2">Personalización</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">100% a medida</p>
-                    </div>
-                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
-                        <div class="text-4xl mb-4">🎨</div>
-                        <h3 class="font-cinzel text-xl mb-2">Artesanal</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Hecho a mano</p>
-                    </div>
-                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
-                        <div class="text-4xl mb-4">💎</div>
-                        <h3 class="font-cinzel text-xl mb-2">Calidad</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Resina premium</p>
-                    </div>
-                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
-                        <div class="text-4xl mb-4">🌟</div>
-                        <h3 class="font-cinzel text-xl mb-2">Exclusivo</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Piezas únicas</p>
-                    </div>
-                </div>
-            </div>
+  <!-- ═══════════════════════════════════════════
+       GALERÍA MINI
+  ═══════════════════════════════════════════ -->
+  <section class="py-8 px-6 overflow-hidden">
+    <div class="marquee-track" aria-hidden="true">
+      <div class="marquee-inner">
+        <img src="https://images.unsplash.com/photo-1617720218026-28f5ab62e5d4?w=300&q=80" alt="Resina flores" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1614588599337-26e1d0f2ad10?w=300&q=80" alt="Resina glitter" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=300&q=80" alt="Degradado resina" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="Flores secas" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1600423115367-87ea7661688f?w=300&q=80" alt="Glitter dorado" class="marquee-img" />
+        <!-- Duplicated for seamless loop -->
+        <img src="https://images.unsplash.com/photo-1617720218026-28f5ab62e5d4?w=300&q=80" alt="Resina flores" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1614588599337-26e1d0f2ad10?w=300&q=80" alt="Resina glitter" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=300&q=80" alt="Degradado resina" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="Flores secas" class="marquee-img" />
+        <img src="https://images.unsplash.com/photo-1600423115367-87ea7661688f?w=300&q=80" alt="Glitter dorado" class="marquee-img" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       EL TALLER - CONFIGURADOR
+  ═══════════════════════════════════════════ -->
+  <section id="taller" class="py-24 px-4 relative">
+    <div class="max-w-2xl mx-auto">
+
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <span class="section-label">Configurador interactivo</span>
+        <h2 class="font-cinzel text-4xl sm:text-5xl font-bold mt-4 mb-4">
+          El <span class="gold-gradient-text">Taller</span>
+        </h2>
+        <p class="font-montserrat font-light text-white/50 text-sm">
+          Diseñá tu pieza ideal. Personalizá cada detalle.
+        </p>
+      </div>
+
+      <!-- Configurator card -->
+      <div class="configurator-card">
+
+        <!-- ── TABS ── -->
+        <div class="tabs-container" role="tablist" aria-label="Modo de configuración">
+          <button class="tab-btn active" id="tab-letra" role="tab" aria-selected="true" aria-controls="panel-letra" data-mode="letra">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path d="M6 20L12 4l6 16M8.5 14h7"/></svg>
+            Letra
+          </button>
+          <button class="tab-btn" id="tab-tarjeta" role="tab" aria-selected="false" aria-controls="panel-tarjeta" data-mode="tarjeta">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><rect x="4" y="5" width="16" height="16" rx="2"/><circle cx="12" cy="8" r="1"/></svg>
+            Tarjeta
+          </button>
         </div>
-    </section>
 
-    <!-- EL TALLER (CONFIGURADOR INTERACTIVO) -->
-    <section id="taller" class="relative py-20 px-6 min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Configurador</span>
-                <h2 class="text-4xl md:text-6xl font-cinzel font-bold mb-4">El Taller <span class="text-gold">RADIANZA</span></h2>
-                <p class="text-gray-400 font-montserrat">Diseña tu pieza personalizada en tiempo real</p>
+        <!-- ── PREVIEW ── -->
+        <div class="preview-area" id="preview-area" role="img" aria-label="Vista previa de tu pieza">
+
+          <!-- PANEL LETRA -->
+          <div id="panel-letra" role="tabpanel" aria-labelledby="tab-letra" class="panel-content active">
+            <div class="letra-preview-wrapper">
+              <div id="letra-display" class="letra-display" aria-live="polite">A</div>
             </div>
+          </div>
 
-            <div class="grid lg:grid-cols-2 gap-8 items-start">
-                
-                <!-- PREVIEW PANEL -->
-                <div class="glass-card p-8 rounded-3xl sticky top-8">
-                    <div class="aspect-square flex items-center justify-center bg-gradient-to-br from-deep-blue to-midnight rounded-2xl overflow-hidden relative preview-container">
-                        <!-- Modo Letra Preview -->
-                        <div id="previewLetra" class="preview-mode active">
-                            <div id="letraDisplay" class="letra-display text-[20rem] font-cinzel font-black">
-                                A
-                            </div>
-                        </div>
-
-                        <!-- Modo Tarjeta Preview -->
-                        <div id="previewTarjeta" class="preview-mode">
-                            <div id="tarjetaDisplay" class="tarjeta-display">
-                                <div class="tarjeta-hole"></div>
-                                <div id="tarjetaImage" class="tarjeta-image"></div>
-                                <div class="tarjeta-overlay"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Precio Dinámico -->
-                    <div class="mt-8 text-center">
-                        <div class="inline-flex items-center gap-3 glass-card px-8 py-4 rounded-full">
-                            <span class="text-gray-400 font-montserrat">Precio:</span>
-                            <span id="precioDisplay" class="text-4xl font-cinzel font-bold text-gold">$6.500</span>
-                        </div>
-                    </div>
-
-                    <!-- CTA Button -->
-                    <button id="btnPedido" class="w-full mt-6 bg-gold text-midnight px-8 py-4 rounded-full font-montserrat font-bold text-lg hover:bg-opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50">
-                        Realizar Pedido
-                    </button>
+          <!-- PANEL TARJETA -->
+          <div id="panel-tarjeta" role="tabpanel" aria-labelledby="tab-tarjeta" class="panel-content hidden">
+            <div class="tarjeta-wrapper">
+              <div class="tarjeta-preview" id="tarjeta-display">
+                <div class="tarjeta-hole" aria-hidden="true"></div>
+                <div class="tarjeta-image-container" id="tarjeta-img-container">
+                  <img id="tarjeta-uploaded-img" src="" alt="Imagen subida" class="tarjeta-uploaded hidden" />
+                  <div id="tarjeta-placeholder" class="tarjeta-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" class="w-10 h-10 opacity-30 mb-2"><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h7"/><polyline points="16 5 19 2 22 5"/><line x1="19" y1="2" x2="19" y2="15"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 00-2.828 0L6 21"/></svg>
+                    <span class="text-xs font-montserrat text-white/30 tracking-wider">Tu foto aquí</span>
+                  </div>
                 </div>
-
-                <!-- CONTROLS PANEL -->
-                <div class="space-y-6">
-                    
-                    <!-- Modo Selector (Tabs) -->
-                    <div class="glass-card p-6 rounded-3xl">
-                        <h3 class="font-cinzel text-2xl mb-4 text-gold">Selecciona el Formato</h3>
-                        <div class="flex gap-4">
-                            <button class="modo-btn active" data-modo="letra">
-                                <span class="text-3xl block mb-2">🔤</span>
-                                <span class="font-montserrat font-semibold">Letra</span>
-                                <span class="text-xs block text-gray-400 mt-1">Molde Inverso</span>
-                            </button>
-                            <button class="modo-btn" data-modo="tarjeta">
-                                <span class="text-3xl block mb-2">💳</span>
-                                <span class="font-montserrat font-semibold">Tarjeta</span>
-                                <span class="text-xs block text-gray-400 mt-1">Porta SUBE</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Input Letra (Condicional) -->
-                    <div id="inputLetra" class="glass-card p-6 rounded-3xl control-panel">
-                        <h3 class="font-cinzel text-xl mb-4">Elige tu Inicial</h3>
-                        <input type="text" id="letraInput" maxlength="1" placeholder="A" 
-                               class="w-full bg-midnight/50 border-2 border-gold/30 rounded-xl px-6 py-4 text-center text-4xl font-cinzel font-bold text-gold focus:outline-none focus:border-gold transition-all uppercase">
-                    </div>
-
-                    <!-- Input Tarjeta (Condicional) -->
-                    <div id="inputTarjeta" class="glass-card p-6 rounded-3xl control-panel hidden">
-                        <h3 class="font-cinzel text-xl mb-4">Sube tu Imagen</h3>
-                        <div class="relative">
-                            <input type="file" id="tarjetaInput" accept="image/*" class="hidden">
-                            <label for="tarjetaInput" class="block w-full bg-midnight/50 border-2 border-gold/30 border-dashed rounded-xl px-6 py-8 text-center cursor-pointer hover:border-gold transition-all">
-                                <div class="text-4xl mb-2">📷</div>
-                                <div class="font-montserrat text-sm text-gray-400">Haz clic para subir una foto</div>
-                                <div class="font-montserrat text-xs text-gray-500 mt-2">JPG, PNG (Max 5MB)</div>
-                            </label>
-                        </div>
-                        <div id="imagePreviewName" class="mt-3 text-sm text-gold font-montserrat text-center hidden"></div>
-                    </div>
-
-                    <!-- Color Base -->
-                    <div class="glass-card p-6 rounded-3xl">
-                        <h3 class="font-cinzel text-xl mb-4">Color Base</h3>
-                        <div class="grid grid-cols-4 gap-3">
-                            <button class="color-btn active" data-color="black" style="background: #0a0a0a;">
-                                <span class="color-check">✓</span>
-                            </button>
-                            <button class="color-btn" data-color="blue" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
-                                <span class="color-check">✓</span>
-                            </button>
-                            <button class="color-btn" data-color="pink" style="background: linear-gradient(135deg, #9d174d, #ec4899);">
-                                <span class="color-check">✓</span>
-                            </button>
-                            <button class="color-btn" data-color="transparent" style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3)); border: 2px solid rgba(212,175,55,0.3);">
-                                <span class="color-check">✓</span>
-                            </button>
-                        </div>
-                        <div class="flex justify-between mt-3 text-xs font-montserrat text-gray-400">
-                            <span>Negro</span>
-                            <span>Azul</span>
-                            <span>Rosa</span>
-                            <span>Cristal</span>
-                        </div>
-                    </div>
-
-                    <!-- Temática/Inclusiones -->
-                    <div class="glass-card p-6 rounded-3xl">
-                        <h3 class="font-cinzel text-xl mb-4">Inclusiones</h3>
-                        <div class="grid grid-cols-3 gap-3">
-                            <button class="inclusion-btn active" data-inclusion="verano">
-                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80');"></div>
-                                <span class="inclusion-label">Verano</span>
-                            </button>
-                            <button class="inclusion-btn" data-inclusion="flores">
-                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&q=80');"></div>
-                                <span class="inclusion-label">Flores</span>
-                            </button>
-                            <button class="inclusion-btn" data-inclusion="glitter">
-                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400&q=80');"></div>
-                                <span class="inclusion-label">Glitter</span>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
+                <div class="tarjeta-resin-overlay" id="tarjeta-resin" aria-hidden="true"></div>
+                <div class="tarjeta-texture-overlay" id="tarjeta-texture-overlay" aria-hidden="true"></div>
+                <p class="tarjeta-brand font-cinzel">RADIANZA</p>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
 
-    <!-- GALLERY SECTION -->
-    <section id="gallery" class="relative py-20 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Portfolio</span>
-                <h2 class="text-4xl md:text-5xl font-cinzel font-bold">Nuestras <span class="text-gold">Creaciones</span></h2>
+        <!-- ── CONTROLES ── -->
+        <div class="controls-section">
+
+          <!-- Control 1: Letra (solo en modo letra) -->
+          <div class="control-group" id="control-letra-input">
+            <label class="control-label" for="letra-input">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path d="M12 20h9M16.376 3.622a1 1 0 011.416-.006l2.592 2.568a1 1 0 01.006 1.416L6.626 21.2a1 1 0 01-.428.247l-3.499 1a1 1 0 01-1.247-1.247l1-3.499a1 1 0 01.247-.428z"/></svg>
+              Tu inicial
+            </label>
+            <div class="letra-input-wrapper">
+              <input
+                type="text"
+                id="letra-input"
+                maxlength="1"
+                placeholder="A"
+                class="letra-input-field"
+                aria-label="Escribe tu inicial (una letra)"
+              />
             </div>
+          </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
-                    <div class="aspect-square bg-gradient-to-br from-gold/20 to-midnight relative overflow-hidden">
-                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
-                        <div class="absolute inset-0 flex items-center justify-center text-6xl font-cinzel text-gold">A</div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-cinzel text-lg">Letra Personalizada</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Con flores secas</p>
-                    </div>
-                </div>
-                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
-                    <div class="aspect-square bg-gradient-to-br from-blue-900 to-midnight relative overflow-hidden">
-                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-32 h-48 bg-gradient-to-br from-blue-600 to-blue-900 rounded-lg"></div>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-cinzel text-lg">Porta SUBE</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Base azul cristal</p>
-                    </div>
-                </div>
-                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
-                    <div class="aspect-square bg-gradient-to-br from-pink-900 to-midnight relative overflow-hidden">
-                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
-                        <div class="absolute inset-0 flex items-center justify-center text-6xl font-cinzel text-pink-400">M</div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-cinzel text-lg">Inicial Rosa</h3>
-                        <p class="text-sm text-gray-400 font-montserrat">Con glitter dorado</p>
-                    </div>
-                </div>
+          <!-- Control: Upload (solo en modo tarjeta) -->
+          <div class="control-group hidden" id="control-upload">
+            <label class="control-label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Tu foto
+            </label>
+            <label for="file-upload" class="file-upload-btn" role="button" tabindex="0">
+              <span id="upload-label-text">Elegir imagen del celular</span>
+            </label>
+            <input type="file" id="file-upload" accept="image/*" class="sr-only" aria-label="Subir imagen de fondo para la tarjeta" />
+          </div>
+
+          <!-- Control 2: Color base -->
+          <div class="control-group">
+            <span class="control-label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 000 20 10 10 0 000-20"/></svg>
+              Color base
+            </span>
+            <div class="color-swatches" role="group" aria-label="Selecciona un color base">
+              <button class="color-swatch active" style="background:#0a0a0a; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);" data-color="#0a0a0a" aria-label="Negro" aria-pressed="true" title="Negro"></button>
+              <button class="color-swatch" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);" data-color="#0f172a" aria-label="Azul marino" aria-pressed="false" title="Azul Marino"></button>
+              <button class="color-swatch" style="background:linear-gradient(135deg,#3d1a2e,#8b2252);" data-color="#3d1a2e" aria-label="Rosa oscuro" aria-pressed="false" title="Rosa Oscuro"></button>
+              <button class="color-swatch swatch-transparent" data-color="transparent" aria-label="Transparente" aria-pressed="false" title="Transparente"></button>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- CONTACT SECTION -->
-    <section id="contacto" class="relative py-20 px-6">
-        <div class="max-w-4xl mx-auto">
-            <div class="glass-card p-8 md:p-12 rounded-3xl text-center">
-                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Contacto</span>
-                <h2 class="text-4xl md:text-5xl font-cinzel font-bold mb-6">Hablemos de tu <span class="text-gold">Pieza Única</span></h2>
-                <p class="text-gray-300 font-montserrat mb-8 max-w-2xl mx-auto">
-                    ¿Tienes una idea en mente? Contáctanos y trabajaremos juntos para crear tu pieza perfecta.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://wa.me/5491234567890" target="_blank" class="inline-flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-full font-montserrat font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105">
-                        <span class="text-2xl">📱</span>
-                        WhatsApp
-                    </a>
-                    <a href="https://instagram.com/radianza" target="_blank" class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-montserrat font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105">
-                        <span class="text-2xl">📷</span>
-                        Instagram
-                    </a>
-                </div>
-                <div class="mt-8 pt-8 border-t border-gold/20">
-                    <p class="text-gray-400 font-montserrat text-sm">
-                        📍 Caleta Olivia, Santa Cruz, Argentina
-                    </p>
-                </div>
+          <!-- Control 3: Temática -->
+          <div class="control-group">
+            <span class="control-label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path d="M12 3c-4.97 0-9 3.185-9 7.115 0 3.21 2.58 5.968 6 6.72V21h6v-4.165c3.42-.75 6-3.51 6-6.72C21 6.185 16.97 3 12 3z"/></svg>
+              Temática / Inclusiones
+            </span>
+            <div class="theme-swatches" role="group" aria-label="Selecciona una temática">
+              <button class="theme-btn active" data-theme="none" data-texture="" aria-pressed="true">
+                <span class="theme-icon">✦</span>
+                <span>Sin inclusión</span>
+              </button>
+              <button class="theme-btn" data-theme="verano" data-texture="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" aria-pressed="false">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=80&q=70" alt="" class="theme-thumb" aria-hidden="true" />
+                <span>Verano</span>
+              </button>
+              <button class="theme-btn" data-theme="flores" data-texture="https://images.unsplash.com/photo-1490750967868-88df5691cc8d?w=400&q=80" aria-pressed="false">
+                <img src="https://images.unsplash.com/photo-1490750967868-88df5691cc8d?w=80&q=70" alt="" class="theme-thumb" aria-hidden="true" />
+                <span>Flores</span>
+              </button>
+              <button class="theme-btn" data-theme="glitter" data-texture="https://images.unsplash.com/photo-1612198273688-f55f42d22d8b?w=400&q=80" aria-pressed="false">
+                <img src="https://images.unsplash.com/photo-1612198273688-f55f42d22d8b?w=80&q=70" alt="" class="theme-thumb" aria-hidden="true" />
+                <span>Glitter</span>
+              </button>
             </div>
-        </div>
-    </section>
+          </div>
 
-    <!-- FOOTER -->
-    <footer class="relative py-12 px-6 border-t border-gold/10">
-        <div class="max-w-6xl mx-auto text-center">
-            <h3 class="text-3xl font-cinzel font-bold text-gold mb-4">RADIANZA</h3>
-            <p class="text-gray-400 font-montserrat text-sm mb-6">Dark Luxury en Resina Epoxi</p>
-            <p class="text-gray-500 font-montserrat text-xs">© 2024 RADIANZA. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+        </div><!-- /controls-section -->
 
-    <!-- BOTTOM NAVIGATION BAR (App Style) -->
-    <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-50">
-        <div class="max-w-md mx-auto px-6">
-            <div class="glass-card rounded-t-3xl px-6 py-4 flex items-center justify-around relative">
-                <a href="#hero" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-gold transition-colors">
-                    <span class="text-2xl">🏠</span>
-                    <span class="text-xs font-montserrat">Inicio</span>
-                </a>
-                
-                <!-- Central Floating Button -->
-                <a href="#taller" class="nav-item-central absolute -top-8 left-1/2 -translate-x-1/2">
-                    <div class="w-16 h-16 bg-gradient-to-br from-gold to-yellow-600 rounded-full flex items-center justify-center text-3xl shadow-2xl shadow-gold/50 hover:scale-110 transition-transform">
-                        ⚡
-                    </div>
-                </a>
-                
-                <a href="#contacto" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-gold transition-colors">
-                    <span class="text-2xl">💬</span>
-                    <span class="text-xs font-montserrat">Contacto</span>
-                </a>
+        <!-- ── PRECIO & CTA ── -->
+        <div class="price-cta-bar">
+          <div class="price-block">
+            <span class="price-label font-montserrat text-xs text-white/40 uppercase tracking-widest">Precio estimado</span>
+            <div class="price-value-row">
+              <span id="price-display" class="font-cinzel text-3xl font-bold gold-gradient-text" aria-live="polite" aria-atomic="true">$6.500</span>
+              <span class="font-montserrat text-xs text-white/40 self-end pb-1 ml-1">ARS</span>
             </div>
+            <span id="price-mode-label" class="font-montserrat text-xs text-white/30">Letra personalizada</span>
+          </div>
+          <a href="#contacto" class="btn-primary btn-order" aria-label="Pedir esta pieza por WhatsApp">
+            Pedí la tuya
+          </a>
         </div>
-    </nav>
 
-    <!-- JavaScript -->
-    <script src="js/app.js"></script>
+      </div><!-- /configurator-card -->
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PROCESO
+  ═══════════════════════════════════════════ -->
+  <section class="py-24 px-6 relative">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="section-label">Cómo funciona</span>
+        <h2 class="font-cinzel text-4xl font-bold mt-4">El <span class="gold-gradient-text">Proceso</span></h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="process-step glass-card p-8 text-center">
+          <div class="step-number font-cinzel">01</div>
+          <h3 class="font-cinzel text-lg font-semibold mt-4 mb-3 text-white">Diseñás</h3>
+          <p class="font-montserrat text-xs text-white/50 leading-relaxed">Usá el configurador para armar tu pieza ideal. Elegís la forma, el color y la temática.</p>
+        </div>
+        <div class="process-step glass-card p-8 text-center" style="--delay:0.1s">
+          <div class="step-number font-cinzel">02</div>
+          <h3 class="font-cinzel text-lg font-semibold mt-4 mb-3 text-white">Encargás</h3>
+          <p class="font-montserrat text-xs text-white/50 leading-relaxed">Nos contactás por WhatsApp con tu diseño. Confirmamos detalles y acordamos el pago.</p>
+        </div>
+        <div class="process-step glass-card p-8 text-center" style="--delay:0.2s">
+          <div class="step-number font-cinzel">03</div>
+          <h3 class="font-cinzel text-lg font-semibold mt-4 mb-3 text-white">Recibís</h3>
+          <p class="font-montserrat text-xs text-white/50 leading-relaxed">Tu pieza se hace a mano con amor. Envíos a toda la Argentina o retiro en Caleta Olivia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACTO
+  ═══════════════════════════════════════════ -->
+  <section id="contacto" class="py-24 px-6 relative">
+    <div class="max-w-lg mx-auto text-center">
+      <span class="section-label">Hablemos</span>
+      <h2 class="font-cinzel text-4xl sm:text-5xl font-bold mt-4 mb-6">
+        <span class="gold-gradient-text">Contacto</span>
+      </h2>
+      <p class="font-montserrat font-light text-white/50 text-sm mb-10 leading-relaxed">
+        ¿Tenés una idea? ¿Querés una pieza única para vos o para regalar?<br>
+        Escribinos y lo hacemos realidad.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="https://wa.me/+54XXXXXXXXXX?text=Hola!%20Quiero%20hacer%20un%20pedido%20en%20RADIANZA" target="_blank" rel="noopener" class="btn-primary flex items-center gap-3 justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://instagram.com/radianza.resin" target="_blank" rel="noopener" class="btn-ghost flex items-center gap-3 justify-center text-white/60">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+      </div>
+
+      <!-- Location badge -->
+      <div class="location-badge mt-12 font-montserrat">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        Caleta Olivia, Santa Cruz, Argentina
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="pb-28 pt-10 px-6 border-t border-white/5">
+    <div class="max-w-xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+      <span class="font-cinzel text-lg font-bold gold-gradient-text tracking-widest">RADIANZA</span>
+      <p class="font-montserrat text-xs text-white/20 text-center">
+        © 2025 RADIANZA · Dark Luxury Resin · Patagonia Argentina
+      </p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════
+       BOTTOM NAV BAR
+  ═══════════════════════════════════════════ -->
+  <nav class="bottom-nav" role="navigation" aria-label="Navegación principal">
+    <a href="#inicio" class="nav-item active" data-section="inicio" aria-label="Inicio" aria-current="page">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-icon"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="nav-label">Inicio</span>
+    </a>
+
+    <!-- FAB central -->
+    <a href="#taller" class="nav-fab" aria-label="Ir al Taller configurador">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6"><path d="M12 20h9M16.376 3.622a1 1 0 011.416-.006l2.592 2.568a1 1 0 01.006 1.416L6.626 21.2a1 1 0 01-.428.247l-3.499 1a1 1 0 01-1.247-1.247l1-3.499a1 1 0 01.247-.428z"/></svg>
+    </a>
+
+    <a href="#contacto" class="nav-item" data-section="contacto" aria-label="Contacto">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="nav-icon"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      <span class="nav-label">Contacto</span>
+    </a>
+  </nav>
+
+  <!-- App JS -->
+  <script src="js/app.js"></script>
 </body>
 </html>
