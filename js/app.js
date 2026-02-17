@@ -1,431 +1,498 @@
-// ===================================
-// RADIANZA - Interactive Logic
-// Dark Luxury Configurator
-// ===================================
+/**
+ * ═══════════════════════════════════════════════════
+ *   RADIANZA – Dark Luxury Resin · app.js
+ *   Lógica de UI modular y limpia
+ *   Módulos: Loader | Navigation | Taller | ScrollReveal
+ * ═══════════════════════════════════════════════════
+ */
 
-// === STATE MANAGEMENT ===
+'use strict';
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: CONFIGURACIÓN GLOBAL
+═══════════════════════════════════════════════════ */
+const CONFIG = {
+  prices: {
+    letra:   6500,
+    tarjeta: 5000,
+  },
+  loader: {
+    delay: 2800, // ms antes de ocultar el loader
+  },
+  textures: {
+    none:    '',
+    verano:  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80',
+    flores:  'https://images.unsplash.com/photo-1490750967868-88df5691cc8d?w=400&q=80',
+    glitter: 'https://images.unsplash.com/photo-1612198273688-f55f42d22d8b?w=400&q=80',
+  },
+  lettraTextureFallback: 'https://images.unsplash.com/photo-1612198273688-f55f42d22d8b?w=400&q=80',
+};
+
+/* ═══════════════════════════════════════════════════
+   ESTADO GLOBAL DEL CONFIGURADOR
+═══════════════════════════════════════════════════ */
 const state = {
-    modo: 'letra', // 'letra' o 'tarjeta'
-    letra: 'A',
-    color: 'black',
-    inclusion: 'verano',
-    imagen: null,
-    precios: {
-        letra: 6500,
-        tarjeta: 5000
-    }
+  mode:        'letra',     // 'letra' | 'tarjeta'
+  letra:       'A',         // Letra seleccionada
+  color:       '#0a0a0a',   // Color base
+  theme:       'none',      // 'none' | 'verano' | 'flores' | 'glitter'
+  uploadedImg: null,        // URL de imagen subida (FileReader)
 };
 
-// === DOM ELEMENTS ===
-const elements = {
-    // Loader
-    loader: document.getElementById('loader'),
-    
-    // Modo Selector
-    modoBtns: document.querySelectorAll('.modo-btn'),
-    
-    // Inputs
-    inputLetra: document.getElementById('inputLetra'),
-    inputTarjeta: document.getElementById('inputTarjeta'),
-    letraInput: document.getElementById('letraInput'),
-    tarjetaInput: document.getElementById('tarjetaInput'),
-    imagePreviewName: document.getElementById('imagePreviewName'),
-    
-    // Preview
-    previewLetra: document.getElementById('previewLetra'),
-    previewTarjeta: document.getElementById('previewTarjeta'),
-    letraDisplay: document.getElementById('letraDisplay'),
-    tarjetaDisplay: document.getElementById('tarjetaDisplay'),
-    tarjetaImage: document.getElementById('tarjetaImage'),
-    
-    // Controls
-    colorBtns: document.querySelectorAll('.color-btn'),
-    inclusionBtns: document.querySelectorAll('.inclusion-btn'),
-    
-    // Price
-    precioDisplay: document.getElementById('precioDisplay'),
-    
-    // CTA
-    btnPedido: document.getElementById('btnPedido')
-};
+/* ═══════════════════════════════════════════════════
+   MÓDULO: LOADER
+═══════════════════════════════════════════════════ */
+const LoaderModule = (() => {
 
-// === INITIALIZATION ===
-function init() {
-    // Remove loader after animations
-    setTimeout(() => {
-        if (elements.loader) {
-            elements.loader.style.display = 'none';
+  const loaderEl = document.getElementById('loader');
+
+  /**
+   * Oculta el loader con animación slide-up
+   * y lo elimina del DOM para liberar recursos
+   */
+  function hide() {
+    if (!loaderEl) return;
+
+    loaderEl.classList.add('slide-up');
+
+    // Quitar del flujo completamente tras la animación
+    loaderEl.addEventListener('transitionend', () => {
+      loaderEl.style.display = 'none';
+      loaderEl.setAttribute('aria-hidden', 'true');
+    }, { once: true });
+  }
+
+  function init() {
+    // Esperar a que la barra de carga termine + delay visual
+    setTimeout(hide, CONFIG.loader.delay);
+  }
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: NAVEGACIÓN (Bottom Bar)
+═══════════════════════════════════════════════════ */
+const NavigationModule = (() => {
+
+  const navItems = document.querySelectorAll('.nav-item');
+
+  /**
+   * Actualiza el ítem activo según la sección visible
+   */
+  function updateActiveItem() {
+    const scrollY = window.scrollY;
+    const sections = ['inicio', 'taller', 'contacto'];
+
+    let current = 'inicio';
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.getBoundingClientRect().top <= 120) {
+        current = id;
+      }
+    });
+
+    navItems.forEach(item => {
+      const section = item.dataset.section;
+      item.classList.toggle('active', section === current);
+      item.setAttribute('aria-current', section === current ? 'page' : 'false');
+    });
+  }
+
+  function init() {
+    window.addEventListener('scroll', updateActiveItem, { passive: true });
+    updateActiveItem();
+  }
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: SCROLL REVEAL
+   Anima elementos al entrar en viewport
+═══════════════════════════════════════════════════ */
+const ScrollRevealModule = (() => {
+
+  let observer;
+
+  function init() {
+    // Agregar clase reveal a secciones clave
+    const targets = document.querySelectorAll(
+      '.glass-card, .process-step, #filosofia h2, #filosofia p, #contacto h2'
+    );
+
+    targets.forEach(el => el.classList.add('reveal'));
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // Animar solo una vez
         }
-    }, 3500);
-    
-    // Attach event listeners
-    attachEventListeners();
-    
-    // Initialize preview
-    updatePreview();
-}
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px',
+    });
 
-// === EVENT LISTENERS ===
-function attachEventListeners() {
-    // Modo buttons
-    elements.modoBtns.forEach(btn => {
-        btn.addEventListener('click', handleModoChange);
-    });
-    
-    // Letra input
-    if (elements.letraInput) {
-        elements.letraInput.addEventListener('input', handleLetraInput);
-    }
-    
-    // Tarjeta file input
-    if (elements.tarjetaInput) {
-        elements.tarjetaInput.addEventListener('change', handleImageUpload);
-    }
-    
-    // Color buttons
-    elements.colorBtns.forEach(btn => {
-        btn.addEventListener('click', handleColorChange);
-    });
-    
-    // Inclusion buttons
-    elements.inclusionBtns.forEach(btn => {
-        btn.addEventListener('click', handleInclusionChange);
-    });
-    
-    // Pedido button
-    if (elements.btnPedido) {
-        elements.btnPedido.addEventListener('click', handlePedido);
-    }
-    
-    // Smooth scroll for navigation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
+    targets.forEach(el => observer.observe(el));
+  }
 
-// === MODO HANDLER ===
-function handleModoChange(e) {
-    const btn = e.currentTarget;
-    const modo = btn.dataset.modo;
-    
-    // Update state
-    state.modo = modo;
-    
-    // Update UI
-    elements.modoBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    // Toggle input panels
-    if (modo === 'letra') {
-        elements.inputLetra.classList.remove('hidden');
-        elements.inputTarjeta.classList.add('hidden');
-        elements.previewLetra.classList.add('active');
-        elements.previewTarjeta.classList.remove('active');
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: TALLER (Configurador Principal)
+═══════════════════════════════════════════════════ */
+const TallerModule = (() => {
+
+  // ── Elementos DOM ──────────────────────────────
+  const tabBtns              = document.querySelectorAll('.tab-btn');
+  const panelLetra           = document.getElementById('panel-letra');
+  const panelTarjeta         = document.getElementById('panel-tarjeta');
+  const controlLetraInput    = document.getElementById('control-letra-input');
+  const controlUpload        = document.getElementById('control-upload');
+
+  const letraInputField      = document.getElementById('letra-input');
+  const letraDisplay         = document.getElementById('letra-display');
+
+  const tarjetaDisplay       = document.getElementById('tarjeta-display');
+  const tarjetaResin         = document.getElementById('tarjeta-resin');
+  const tarjetaTextureOverlay= document.getElementById('tarjeta-texture-overlay');
+  const tarjetaImgContainer  = document.getElementById('tarjeta-img-container');
+  const tarjetaUploadedImg   = document.getElementById('tarjeta-uploaded-img');
+  const tarjetaPlaceholder   = document.getElementById('tarjeta-placeholder');
+
+  const fileUploadInput      = document.getElementById('file-upload');
+  const uploadLabelText      = document.getElementById('upload-label-text');
+
+  const colorSwatches        = document.querySelectorAll('.color-swatch');
+  const themeButtons         = document.querySelectorAll('.theme-btn');
+
+  const priceDisplay         = document.getElementById('price-display');
+  const priceModeLabel       = document.getElementById('price-mode-label');
+
+  // ── Formateo de precio (ARS con separador de miles) ──
+  function formatPrice(amount) {
+    return '$' + amount.toLocaleString('es-AR');
+  }
+
+  // ── Actualizar precio ─────────────────────────
+  function updatePrice() {
+    const price = CONFIG.prices[state.mode];
+    priceDisplay.textContent = formatPrice(price);
+    priceModeLabel.textContent =
+      state.mode === 'letra' ? 'Letra personalizada' : 'Porta Sube / Credencial';
+
+    // Pequeña animación de "pop" en el precio
+    priceDisplay.style.transform = 'scale(1.12)';
+    priceDisplay.style.transition = 'transform 0.2s ease';
+    setTimeout(() => {
+      priceDisplay.style.transform = 'scale(1)';
+    }, 200);
+  }
+
+  // ── Cambiar modo (Letra / Tarjeta) ────────────
+  function setMode(mode) {
+    state.mode = mode;
+
+    // Actualizar tabs
+    tabBtns.forEach(btn => {
+      const isActive = btn.dataset.mode === mode;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
+
+    // Mostrar/ocultar paneles
+    if (mode === 'letra') {
+      panelLetra.classList.remove('hidden');
+      panelTarjeta.classList.add('hidden');
+      controlLetraInput.classList.remove('hidden');
+      controlUpload.classList.add('hidden');
     } else {
-        elements.inputLetra.classList.add('hidden');
-        elements.inputTarjeta.classList.remove('hidden');
-        elements.previewLetra.classList.remove('active');
-        elements.previewTarjeta.classList.add('active');
+      panelLetra.classList.add('hidden');
+      panelTarjeta.classList.remove('hidden');
+      controlLetraInput.classList.add('hidden');
+      controlUpload.classList.remove('hidden');
     }
-    
-    // Update price
+
+    // Reanimar el panel visible
+    const panel = mode === 'letra' ? panelLetra : panelTarjeta;
+    panel.style.animation = 'none';
+    panel.offsetHeight; // Reflow forzado
+    panel.style.animation = '';
+
+    // Aplicar color y tema al nuevo modo
+    applyColor(state.color);
+    applyTheme(state.theme);
     updatePrice();
-    
-    // Update preview
-    updatePreview();
-}
+  }
 
-// === LETRA INPUT HANDLER ===
-function handleLetraInput(e) {
-    let value = e.target.value.toUpperCase();
-    
-    // Only allow A-Z
-    value = value.replace(/[^A-Z]/g, '');
-    
-    if (value.length > 0) {
-        state.letra = value[0];
-        e.target.value = value[0];
-    } else {
-        state.letra = 'A';
-        e.target.value = 'A';
-    }
-    
-    updatePreview();
-}
-
-// === IMAGE UPLOAD HANDLER ===
-function handleImageUpload(e) {
-    const file = e.target.files[0];
-    
-    if (!file) return;
-    
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecciona un archivo de imagen válido.');
-        return;
-    }
-    
-    // Validate file size (5MB max)
-    if (file.size > 5 * 1024 * 1024) {
-        alert('La imagen es muy grande. Máximo 5MB.');
-        return;
-    }
-    
-    // Read file
-    const reader = new FileReader();
-    
-    reader.onload = function(event) {
-        state.imagen = event.target.result;
-        
-        // Show file name
-        elements.imagePreviewName.textContent = `✓ ${file.name}`;
-        elements.imagePreviewName.classList.remove('hidden');
-        
-        // Update preview
-        updatePreview();
-    };
-    
-    reader.onerror = function() {
-        alert('Error al cargar la imagen. Intenta de nuevo.');
-    };
-    
-    reader.readAsDataURL(file);
-}
-
-// === COLOR HANDLER ===
-function handleColorChange(e) {
-    const btn = e.currentTarget;
-    const color = btn.dataset.color;
-    
-    // Update state
+  // ── Aplicar color base ────────────────────────
+  function applyColor(color) {
     state.color = color;
-    
-    // Update UI
-    elements.colorBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    // Update preview
-    updatePreview();
-}
 
-// === INCLUSION HANDLER ===
-function handleInclusionChange(e) {
-    const btn = e.currentTarget;
-    const inclusion = btn.dataset.inclusion;
-    
-    // Update state
-    state.inclusion = inclusion;
-    
-    // Update UI
-    elements.inclusionBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    // Update preview
-    updatePreview();
-}
-
-// === UPDATE PREVIEW ===
-function updatePreview() {
-    if (state.modo === 'letra') {
-        updateLetraPreview();
+    if (state.mode === 'letra') {
+      // El color de la letra viene de la textura; el bg detrás cambia levemente
+      letraDisplay.style.textShadow =
+        color === 'transparent'
+          ? '0 0 60px rgba(212,175,55,0.6)'
+          : `0 0 60px ${color}88`;
     } else {
-        updateTarjetaPreview();
+      // En modo tarjeta, el color base es la capa de resina
+      const colorMap = {
+        '#0a0a0a': 'rgba(5, 5, 16, 0.75)',
+        '#0f172a': 'rgba(15, 23, 42, 0.72)',
+        '#3d1a2e': 'rgba(61, 26, 46, 0.72)',
+        'transparent': 'rgba(5, 5, 16, 0.25)',
+      };
+      tarjetaResin.style.background = colorMap[color] || 'rgba(5, 5, 16, 0.75)';
     }
-}
+  }
 
-function updateLetraPreview() {
-    // Update letter
-    elements.letraDisplay.textContent = state.letra;
-    
-    // Update color/inclusion effect
-    const inclusionGradients = {
-        verano: 'linear-gradient(135deg, #f4d56b 0%, #d4af37 50%, #c4a747 100%)',
-        flores: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
-        glitter: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #d4af37 50%, #ffed4e 75%, #ffd700 100%)'
-    };
-    
-    elements.letraDisplay.style.background = inclusionGradients[state.inclusion];
-    elements.letraDisplay.style.backgroundClip = 'text';
-    elements.letraDisplay.style.webkitBackgroundClip = 'text';
-    elements.letraDisplay.style.webkitTextFillColor = 'transparent';
-    
-    // Add animation
-    elements.letraDisplay.style.animation = 'none';
-    setTimeout(() => {
-        elements.letraDisplay.style.animation = 'fadeInScale 0.5s ease-out both';
-    }, 10);
-}
+  // ── Aplicar temática / textura ────────────────
+  function applyTheme(theme) {
+    state.theme = theme;
 
-function updateTarjetaPreview() {
-    // Color base backgrounds
-    const colorBackgrounds = {
-        black: 'linear-gradient(135deg, #0a0a0a, #1a1a1a)',
-        blue: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
-        pink: 'linear-gradient(135deg, #9d174d, #ec4899)',
-        transparent: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2))'
-    };
-    
-    elements.tarjetaDisplay.style.background = colorBackgrounds[state.color];
-    
-    // Update image if uploaded
-    if (state.imagen) {
-        elements.tarjetaImage.style.backgroundImage = `url(${state.imagen})`;
-        elements.tarjetaImage.style.opacity = '0.7';
-        elements.tarjetaImage.style.mixBlendMode = 'overlay';
+    const textureUrl = CONFIG.textures[theme] || '';
+
+    if (state.mode === 'letra') {
+      // Aplica la textura dentro de la letra con background-clip: text
+      if (textureUrl) {
+        letraDisplay.style.backgroundImage = `url('${textureUrl}')`;
+        letraDisplay.style.backgroundSize = 'cover';
+        letraDisplay.style.backgroundPosition = 'center';
+      } else {
+        // Sin inclusión: fallback glitter/dorado
+        letraDisplay.style.backgroundImage = `url('${CONFIG.lettraTextureFallback}')`;
+      }
     } else {
-        elements.tarjetaImage.style.backgroundImage = 'none';
+      // Aplica la textura como overlay sobre la tarjeta
+      if (textureUrl) {
+        tarjetaTextureOverlay.style.backgroundImage = `url('${textureUrl}')`;
+        tarjetaTextureOverlay.style.opacity = '0.45';
+      } else {
+        tarjetaTextureOverlay.style.opacity = '0';
+        tarjetaTextureOverlay.style.backgroundImage = '';
+      }
     }
-    
-    // Add inclusion overlay effect
-    const inclusionOverlays = {
-        verano: 'linear-gradient(135deg, rgba(244, 213, 107, 0.3), transparent)',
-        flores: 'linear-gradient(135deg, rgba(236, 72, 153, 0.3), transparent)',
-        glitter: 'linear-gradient(135deg, rgba(255, 215, 0, 0.4), transparent)'
-    };
-    
-    const overlay = elements.tarjetaDisplay.querySelector('.tarjeta-overlay');
-    if (overlay) {
-        overlay.style.background = inclusionOverlays[state.inclusion];
-    }
-    
-    // Add animation
-    elements.tarjetaDisplay.style.animation = 'none';
+  }
+
+  // ── Manejar input de letra ────────────────────
+  function handleLetraInput(e) {
+    const val = e.target.value.toUpperCase().replace(/[^A-Z]/g, '');
+    letraInputField.value = val;
+    state.letra = val || 'A';
+    letraDisplay.textContent = state.letra;
+
+    // Animación sutil al cambiar letra
+    letraDisplay.style.transition = 'transform 0.2s ease, filter 0.3s ease';
+    letraDisplay.style.transform = 'scale(0.9)';
     setTimeout(() => {
-        elements.tarjetaDisplay.style.animation = 'fadeInScale 0.5s ease-out both';
-    }, 10);
-}
+      letraDisplay.style.transform = 'scale(1)';
+    }, 150);
+  }
 
-// === UPDATE PRICE ===
-function updatePrice() {
-    const precio = state.precios[state.modo];
-    
-    // Format price with thousands separator
-    const precioFormateado = precio.toLocaleString('es-AR');
-    
-    // Update display with animation
-    elements.precioDisplay.style.animation = 'none';
-    setTimeout(() => {
-        elements.precioDisplay.textContent = `$${precioFormateado}`;
-        elements.precioDisplay.style.animation = 'fadeInScale 0.3s ease-out both';
-    }, 10);
-}
+  // ── FileReader: Previsualizar imagen en tarjeta ──
+  function handleFileUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
 
-// === PEDIDO HANDLER ===
-function handlePedido() {
-    // Build WhatsApp message
-    const tipo = state.modo === 'letra' ? 'Letra Molde Inverso' : 'Porta SUBE/Tarjeta';
-    const detalle = state.modo === 'letra' ? `Letra: ${state.letra}` : 'Con imagen personalizada';
-    const precio = state.precios[state.modo];
-    
-    const colorNames = {
-        black: 'Negro',
-        blue: 'Azul',
-        pink: 'Rosa',
-        transparent: 'Cristal Transparente'
+    const reader = new FileReader();
+
+    reader.onloadstart = () => {
+      uploadLabelText.textContent = 'Cargando imagen…';
     };
-    
-    const inclusionNames = {
-        verano: 'Verano (Arena dorada)',
-        flores: 'Flores secas',
-        glitter: 'Glitter dorado'
+
+    reader.onload = (event) => {
+      state.uploadedImg = event.target.result;
+
+      // Mostrar imagen en la tarjeta
+      tarjetaUploadedImg.src = state.uploadedImg;
+      tarjetaUploadedImg.classList.remove('hidden');
+      tarjetaPlaceholder.style.display = 'none';
+
+      // Actualizar label
+      uploadLabelText.textContent = '✓ Imagen cargada · Cambiar';
+
+      // Ajustar overlay para que la imagen se vea bien
+      tarjetaResin.style.opacity = '0.8';
     };
-    
-    const mensaje = `
-¡Hola RADIANZA! 🌟
 
-Quiero realizar un pedido:
-
-📦 *Tipo:* ${tipo}
-${detalle}
-🎨 *Color base:* ${colorNames[state.color]}
-✨ *Inclusiones:* ${inclusionNames[state.inclusion]}
-
-💰 *Precio:* $${precio.toLocaleString('es-AR')}
-
-¿Podemos coordinar los detalles?
-    `.trim();
-    
-    // Encode for URL
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    
-    // WhatsApp URL (replace with real phone number)
-    const whatsappURL = `https://wa.me/5491234567890?text=${mensajeCodificado}`;
-    
-    // Open WhatsApp
-    window.open(whatsappURL, '_blank');
-}
-
-// === INTERSECTION OBSERVER (Optional smooth reveal) ===
-function setupScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+    reader.onerror = () => {
+      uploadLabelText.textContent = '✗ Error al cargar. Intentá de nuevo.';
     };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-    
-    // Observe sections (optional enhancement)
-    document.querySelectorAll('section').forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(30px)';
-        section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-        observer.observe(section);
+
+    reader.readAsDataURL(file);
+  }
+
+  // ── Manejar swatches de color ─────────────────
+  function handleColorSwatch(e) {
+    const swatch = e.currentTarget;
+    const color = swatch.dataset.color;
+
+    colorSwatches.forEach(s => {
+      s.classList.remove('active');
+      s.setAttribute('aria-pressed', 'false');
     });
+
+    swatch.classList.add('active');
+    swatch.setAttribute('aria-pressed', 'true');
+    applyColor(color);
+  }
+
+  // ── Manejar botones de temática ──────────────
+  function handleThemeBtn(e) {
+    const btn = e.currentTarget;
+    const theme = btn.dataset.theme;
+
+    themeButtons.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+
+    btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
+    applyTheme(theme);
+  }
+
+  // ── Keyboard: activar swatches con Enter/Space ─
+  function handleSwatchKeyboard(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.currentTarget.click();
+    }
+  }
+
+  // ── Inicializar eventos ──────────────────────
+  function bindEvents() {
+
+    // Tabs
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => setMode(btn.dataset.mode));
+    });
+
+    // Input de letra
+    letraInputField?.addEventListener('input', handleLetraInput);
+    letraInputField?.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !letraInputField.value) {
+        state.letra = 'A';
+        letraDisplay.textContent = 'A';
+      }
+    });
+
+    // File upload
+    fileUploadInput?.addEventListener('change', handleFileUpload);
+
+    // Color swatches
+    colorSwatches.forEach(swatch => {
+      swatch.addEventListener('click', handleColorSwatch);
+      swatch.addEventListener('keydown', handleSwatchKeyboard);
+    });
+
+    // Theme buttons
+    themeButtons.forEach(btn => {
+      btn.addEventListener('click', handleThemeBtn);
+      btn.addEventListener('keydown', handleSwatchKeyboard);
+    });
+  }
+
+  // ── Estado inicial ────────────────────────────
+  function initState() {
+    letraDisplay.textContent = state.letra;
+    letraInputField.value = state.letra;
+    applyColor(state.color);
+    applyTheme(state.theme);
+    updatePrice();
+  }
+
+  function init() {
+    bindEvents();
+    initState();
+  }
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: SMOOTH SCROLL para anchors
+═══════════════════════════════════════════════════ */
+const SmoothScrollModule = (() => {
+
+  function init() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+
+        const offset = 80; // Compensar bottom nav
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+  }
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   MÓDULO: EFECTO PARALLAX suave en el hero
+═══════════════════════════════════════════════════ */
+const ParallaxModule = (() => {
+
+  const blobs = document.querySelectorAll('.blob');
+  let rafId = null;
+
+  function onScroll() {
+    if (rafId) cancelAnimationFrame(rafId);
+
+    rafId = requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      const factor = scrollY * 0.15;
+
+      blobs.forEach((blob, i) => {
+        const dir = i % 2 === 0 ? 1 : -1;
+        blob.style.transform = `translateY(${factor * dir * 0.5}px)`;
+      });
+    });
+  }
+
+  function init() {
+    // Solo activar si la pantalla es lo suficientemente grande
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  }
+
+  return { init };
+})();
+
+/* ═══════════════════════════════════════════════════
+   BOOT: Inicialización principal
+═══════════════════════════════════════════════════ */
+function boot() {
+  LoaderModule.init();
+  NavigationModule.init();
+  ScrollRevealModule.init();
+  TallerModule.init();
+  SmoothScrollModule.init();
+  ParallaxModule.init();
+
+  console.log(
+    '%c✦ RADIANZA%c Dark Luxury Resin · Caleta Olivia, Patagonia',
+    'color: #d4af37; font-size: 1.2rem; font-weight: bold; font-family: serif;',
+    'color: #9a7d20; font-size: 0.8rem;',
+  );
 }
 
-// === KEYBOARD SHORTCUTS ===
-document.addEventListener('keydown', (e) => {
-    // Press 'L' to switch to Letra mode
-    if (e.key.toLowerCase() === 'l' && !e.target.matches('input')) {
-        const letraBtn = document.querySelector('[data-modo="letra"]');
-        if (letraBtn) letraBtn.click();
-    }
-    
-    // Press 'T' to switch to Tarjeta mode
-    if (e.key.toLowerCase() === 't' && !e.target.matches('input')) {
-        const tarjetaBtn = document.querySelector('[data-modo="tarjeta"]');
-        if (tarjetaBtn) tarjetaBtn.click();
-    }
-});
-
-// === RUN ON PAGE LOAD ===
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-    // setupScrollAnimations(); // Uncomment for extra smooth reveals
-    
-    console.log('🌟 RADIANZA Dark Luxury - Sistema cargado correctamente');
-    console.log('💡 Tip: Usa las teclas "L" y "T" para cambiar rápidamente entre modos');
-});
-
-// === UTILS ===
-// Add CSS animation helper
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeInScale {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-`;
-document.head.appendChild(style);
+// Esperar a que el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot);
+} else {
+  boot();
+          }
+          
