@@ -1,388 +1,431 @@
-// js/app.js
-document.addEventListener('DOMContentLoaded', () => {
+// ===================================
+// RADIANZA - Interactive Logic
+// Dark Luxury Configurator
+// ===================================
+
+// === STATE MANAGEMENT ===
+const state = {
+    modo: 'letra', // 'letra' o 'tarjeta'
+    letra: 'A',
+    color: 'black',
+    inclusion: 'verano',
+    imagen: null,
+    precios: {
+        letra: 6500,
+        tarjeta: 5000
+    }
+};
+
+// === DOM ELEMENTS ===
+const elements = {
+    // Loader
+    loader: document.getElementById('loader'),
     
-    // ==========================================
-    // 1. ANIMACIÓN DEL HERO (INTRODUCCIÓN)
-    // ==========================================
-    const loader = document.getElementById('loader');
+    // Modo Selector
+    modoBtns: document.querySelectorAll('.modo-btn'),
     
-    // Simular carga (puedes quitar el setTimeout si prefieres que sea inmediato al cargar)
-    setTimeout(() => {
-        // 1. Desaparece el loader negro
-        loader.style.opacity = '0';
-        loader.style.pointerEvents = 'none'; // Para que puedas hacer click a lo de abajo
-        
-        // 2. Animar elementos del Hero (Stagger effect)
-        const heroElements = document.querySelectorAll('.hero-elem');
-        heroElements.forEach((el, index) => {
-            setTimeout(() => {
-                el.classList.remove('opacity-0', 'translate-y-8'); // Quita el estado oculto
-                // Las clases CSS de transición en el HTML hacen el resto
-            }, 300 * (index + 1)); // Retraso escalonado
-        });
-        
-    }, 1500); // 1.5 segundos de pantalla negra para "dramatismo"
-
-
-    // ==========================================
-    // 2. LÓGICA DEL TALLER (CONFIGURADOR)
-    // ==========================================
-    
-    // Referencias DOM
-    const dom = {
-        btns: {
-            letter: document.getElementById('btn-mode-letter'),
-            card: document.getElementById('btn-mode-card')
-        },
-        views: {
-            letter: document.getElementById('view-letter'),
-            card: document.getElementById('view-card')
-        },
-        controls: {
-            letterPanel: document.getElementById('controls-letter'),
-            cardPanel: document.getElementById('controls-card')
-        },
-        elements: {
-            letterDisplay: document.getElementById('letter-display'),
-            cardBase: document.getElementById('card-base'),
-            cardPhoto: document.getElementById('card-photo'),
-            cardTheme: document.getElementById('card-theme'),
-            priceTag: document.getElementById('price-tag')
-        },
-        inputs: {
-            text: document.getElementById('input-letter'),
-            file: document.getElementById('input-upload'),
-            colors: document.querySelectorAll('.color-btn'),
-            themes: document.querySelectorAll('.theme-btn')
-        }
-    };
-
-    let state = {
-        mode: 'letter', // 'letter' o 'card'
-        basePrice: 6500
-    };
-
-    // --- FUNCIONES LÓGICAS ---
-
-    // Cambiar Modo (Letra <-> Tarjeta)
-    const setMode = (mode) => {
-        state.mode = mode;
-        
-        // Clases para botón activo vs inactivo
-        const activeClass = "bg-radianza-gold text-black shadow-lg";
-        const inactiveClass = "text-gray-500 hover:text-white";
-
-        if (mode === 'letter') {
-            // Activar botón Letra
-            dom.btns.letter.className = `flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${activeClass}`;
-            dom.btns.card.className = `flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${inactiveClass}`;
-            
-            // Mostrar Vista
-            dom.views.letter.classList.remove('hidden');
-            dom.views.card.classList.add('hidden');
-            
-            // Mostrar Panel
-            dom.controls.letterPanel.classList.remove('hidden');
-            dom.controls.cardPanel.classList.add('hidden');
-            
-            state.basePrice = 6500;
-        } else {
-            // Activar botón Tarjeta
-            dom.btns.card.className = `flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${activeClass}`;
-            dom.btns.letter.className = `flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${inactiveClass}`;
-            
-            // Mostrar Vista
-            dom.views.card.classList.remove('hidden');
-            dom.views.letter.classList.add('hidden');
-            
-            // Mostrar Panel
-            dom.controls.cardPanel.classList.remove('hidden');
-            dom.controls.letterPanel.classList.add('hidden');
-            
-            state.basePrice = 5000;
-        }
-        updatePrice();
-    };
-
-    // Actualizar Texto (Inicial)
-    const updateLetter = (val) => {
-        dom.elements.letterDisplay.innerText = val ? val.toUpperCase() : "A";
-    };
-
-    // Subir Imagen (Tarjeta)
-    const handleUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                dom.elements.cardPhoto.style.backgroundImage = `url(${evt.target.result})`;
-                dom.elements.cardPhoto.style.opacity = 1;
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    // Cambiar Color
-    const setResinColor = (color) => {
-        if (state.mode === 'letter') {
-            const el = dom.elements.letterDisplay;
-            if (color === 'transparent') {
-                el.style.backgroundImage = "url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg')";
-                // Truco para resina transparente
-                el.style.webkitTextFillColor = "transparent"; 
-            } else {
-                // Gradiente para simular volumen
-                el.style.backgroundImage = `linear-gradient(135deg, ${color} 0%, #ffffff 50%, ${color} 100%)`;
-                el.style.webkitTextFillColor = "transparent";
-            }
-        } else {
-            // Tarjeta
-            const el = dom.elements.cardBase;
-            if (color === 'transparent') {
-                el.style.backgroundColor = "rgba(255,255,255,0.1)"; // Efecto vidrio
-            } else {
-                el.style.backgroundColor = color;
-            }
-        }
-    };
-
-    // Cambiar Tema
-    const setTheme = (themeName) => {
-        const themes = {
-            'summer': { url: "https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg", blend: "soft-light" },
-            'flowers': { url: "https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg", blend: "multiply" },
-            'glitter': { url: "https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg", blend: "screen" }
-        };
-
-        if (state.mode === 'letter') {
-            const el = dom.elements.letterDisplay;
-            if (themeName === 'none') {
-                // Si limpia, volvemos a aplicar el color base actual (simulado aqui reseteando filtro)
-                // Para simplificar, en modo letra solo cambiamos la imagen de fondo si hay tema
-                el.style.filter = "none";
-            } else {
-                el.style.backgroundImage = `url(${themes[themeName].url})`;
-                el.style.webkitTextFillColor = "transparent";
-            }
-        } else {
-            // Tarjeta
-            const el = dom.elements.cardTheme;
-            if (themeName === 'none') {
-                el.style.opacity = 0;
-            } else {
-                el.style.backgroundImage = `url(${themes[themeName].url})`;
-                el.style.mixBlendMode = themes[themeName].blend;
-                el.style.opacity = 0.6;
-            }
-        }
-    };
-
-    const updatePrice = () => {
-        dom.elements.priceTag.innerText = "$" + state.basePrice.toLocaleString('es-AR');
-        // Pequeña animación pop
-        dom.elements.priceTag.style.transform = "scale(1.2)";
-        setTimeout(() => dom.elements.priceTag.style.transform = "scale(1)", 200);
-    };
-
-    // --- EVENT LISTENERS ---
-
-    // Botones Modo
-    dom.btns.letter.addEventListener('click', () => setMode('letter'));
-    dom.btns.card.addEventListener('click', () => setMode('card'));
-
     // Inputs
-    dom.inputs.text.addEventListener('input', (e) => updateLetter(e.target.value));
-    dom.inputs.file.addEventListener('change', handleUpload);
+    inputLetra: document.getElementById('inputLetra'),
+    inputTarjeta: document.getElementById('inputTarjeta'),
+    letraInput: document.getElementById('letraInput'),
+    tarjetaInput: document.getElementById('tarjetaInput'),
+    imagePreviewName: document.getElementById('imagePreviewName'),
+    
+    // Preview
+    previewLetra: document.getElementById('previewLetra'),
+    previewTarjeta: document.getElementById('previewTarjeta'),
+    letraDisplay: document.getElementById('letraDisplay'),
+    tarjetaDisplay: document.getElementById('tarjetaDisplay'),
+    tarjetaImage: document.getElementById('tarjetaImage'),
+    
+    // Controls
+    colorBtns: document.querySelectorAll('.color-btn'),
+    inclusionBtns: document.querySelectorAll('.inclusion-btn'),
+    
+    // Price
+    precioDisplay: document.getElementById('precioDisplay'),
+    
+    // CTA
+    btnPedido: document.getElementById('btnPedido')
+};
 
-    // Colores
-    dom.inputs.colors.forEach(btn => {
-        btn.addEventListener('click', () => setResinColor(btn.dataset.color));
+// === INITIALIZATION ===
+function init() {
+    // Remove loader after animations
+    setTimeout(() => {
+        if (elements.loader) {
+            elements.loader.style.display = 'none';
+        }
+    }, 3500);
+    
+    // Attach event listeners
+    attachEventListeners();
+    
+    // Initialize preview
+    updatePreview();
+}
+
+// === EVENT LISTENERS ===
+function attachEventListeners() {
+    // Modo buttons
+    elements.modoBtns.forEach(btn => {
+        btn.addEventListener('click', handleModoChange);
     });
-
-    // Temas
-    dom.inputs.themes.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Asegurar que clickeamos el botón y no la imagen dentro
-            const target = btn.closest('button');
-            setTheme(target.dataset.theme);
+    
+    // Letra input
+    if (elements.letraInput) {
+        elements.letraInput.addEventListener('input', handleLetraInput);
+    }
+    
+    // Tarjeta file input
+    if (elements.tarjetaInput) {
+        elements.tarjetaInput.addEventListener('change', handleImageUpload);
+    }
+    
+    // Color buttons
+    elements.colorBtns.forEach(btn => {
+        btn.addEventListener('click', handleColorChange);
+    });
+    
+    // Inclusion buttons
+    elements.inclusionBtns.forEach(btn => {
+        btn.addEventListener('click', handleInclusionChange);
+    });
+    
+    // Pedido button
+    if (elements.btnPedido) {
+        elements.btnPedido.addEventListener('click', handlePedido);
+    }
+    
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
+}
 
-    // Iniciar
-    setMode('letter');
+// === MODO HANDLER ===
+function handleModoChange(e) {
+    const btn = e.currentTarget;
+    const modo = btn.dataset.modo;
+    
+    // Update state
+    state.modo = modo;
+    
+    // Update UI
+    elements.modoBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Toggle input panels
+    if (modo === 'letra') {
+        elements.inputLetra.classList.remove('hidden');
+        elements.inputTarjeta.classList.add('hidden');
+        elements.previewLetra.classList.add('active');
+        elements.previewTarjeta.classList.remove('active');
+    } else {
+        elements.inputLetra.classList.add('hidden');
+        elements.inputTarjeta.classList.remove('hidden');
+        elements.previewLetra.classList.remove('active');
+        elements.previewTarjeta.classList.add('active');
+    }
+    
+    // Update price
+    updatePrice();
+    
+    // Update preview
+    updatePreview();
+}
+
+// === LETRA INPUT HANDLER ===
+function handleLetraInput(e) {
+    let value = e.target.value.toUpperCase();
+    
+    // Only allow A-Z
+    value = value.replace(/[^A-Z]/g, '');
+    
+    if (value.length > 0) {
+        state.letra = value[0];
+        e.target.value = value[0];
+    } else {
+        state.letra = 'A';
+        e.target.value = 'A';
+    }
+    
+    updatePreview();
+}
+
+// === IMAGE UPLOAD HANDLER ===
+function handleImageUpload(e) {
+    const file = e.target.files[0];
+    
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecciona un archivo de imagen válido.');
+        return;
+    }
+    
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('La imagen es muy grande. Máximo 5MB.');
+        return;
+    }
+    
+    // Read file
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        state.imagen = event.target.result;
+        
+        // Show file name
+        elements.imagePreviewName.textContent = `✓ ${file.name}`;
+        elements.imagePreviewName.classList.remove('hidden');
+        
+        // Update preview
+        updatePreview();
+    };
+    
+    reader.onerror = function() {
+        alert('Error al cargar la imagen. Intenta de nuevo.');
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// === COLOR HANDLER ===
+function handleColorChange(e) {
+    const btn = e.currentTarget;
+    const color = btn.dataset.color;
+    
+    // Update state
+    state.color = color;
+    
+    // Update UI
+    elements.colorBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Update preview
+    updatePreview();
+}
+
+// === INCLUSION HANDLER ===
+function handleInclusionChange(e) {
+    const btn = e.currentTarget;
+    const inclusion = btn.dataset.inclusion;
+    
+    // Update state
+    state.inclusion = inclusion;
+    
+    // Update UI
+    elements.inclusionBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Update preview
+    updatePreview();
+}
+
+// === UPDATE PREVIEW ===
+function updatePreview() {
+    if (state.modo === 'letra') {
+        updateLetraPreview();
+    } else {
+        updateTarjetaPreview();
+    }
+}
+
+function updateLetraPreview() {
+    // Update letter
+    elements.letraDisplay.textContent = state.letra;
+    
+    // Update color/inclusion effect
+    const inclusionGradients = {
+        verano: 'linear-gradient(135deg, #f4d56b 0%, #d4af37 50%, #c4a747 100%)',
+        flores: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+        glitter: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 25%, #d4af37 50%, #ffed4e 75%, #ffd700 100%)'
+    };
+    
+    elements.letraDisplay.style.background = inclusionGradients[state.inclusion];
+    elements.letraDisplay.style.backgroundClip = 'text';
+    elements.letraDisplay.style.webkitBackgroundClip = 'text';
+    elements.letraDisplay.style.webkitTextFillColor = 'transparent';
+    
+    // Add animation
+    elements.letraDisplay.style.animation = 'none';
+    setTimeout(() => {
+        elements.letraDisplay.style.animation = 'fadeInScale 0.5s ease-out both';
+    }, 10);
+}
+
+function updateTarjetaPreview() {
+    // Color base backgrounds
+    const colorBackgrounds = {
+        black: 'linear-gradient(135deg, #0a0a0a, #1a1a1a)',
+        blue: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+        pink: 'linear-gradient(135deg, #9d174d, #ec4899)',
+        transparent: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2))'
+    };
+    
+    elements.tarjetaDisplay.style.background = colorBackgrounds[state.color];
+    
+    // Update image if uploaded
+    if (state.imagen) {
+        elements.tarjetaImage.style.backgroundImage = `url(${state.imagen})`;
+        elements.tarjetaImage.style.opacity = '0.7';
+        elements.tarjetaImage.style.mixBlendMode = 'overlay';
+    } else {
+        elements.tarjetaImage.style.backgroundImage = 'none';
+    }
+    
+    // Add inclusion overlay effect
+    const inclusionOverlays = {
+        verano: 'linear-gradient(135deg, rgba(244, 213, 107, 0.3), transparent)',
+        flores: 'linear-gradient(135deg, rgba(236, 72, 153, 0.3), transparent)',
+        glitter: 'linear-gradient(135deg, rgba(255, 215, 0, 0.4), transparent)'
+    };
+    
+    const overlay = elements.tarjetaDisplay.querySelector('.tarjeta-overlay');
+    if (overlay) {
+        overlay.style.background = inclusionOverlays[state.inclusion];
+    }
+    
+    // Add animation
+    elements.tarjetaDisplay.style.animation = 'none';
+    setTimeout(() => {
+        elements.tarjetaDisplay.style.animation = 'fadeInScale 0.5s ease-out both';
+    }, 10);
+}
+
+// === UPDATE PRICE ===
+function updatePrice() {
+    const precio = state.precios[state.modo];
+    
+    // Format price with thousands separator
+    const precioFormateado = precio.toLocaleString('es-AR');
+    
+    // Update display with animation
+    elements.precioDisplay.style.animation = 'none';
+    setTimeout(() => {
+        elements.precioDisplay.textContent = `$${precioFormateado}`;
+        elements.precioDisplay.style.animation = 'fadeInScale 0.3s ease-out both';
+    }, 10);
+}
+
+// === PEDIDO HANDLER ===
+function handlePedido() {
+    // Build WhatsApp message
+    const tipo = state.modo === 'letra' ? 'Letra Molde Inverso' : 'Porta SUBE/Tarjeta';
+    const detalle = state.modo === 'letra' ? `Letra: ${state.letra}` : 'Con imagen personalizada';
+    const precio = state.precios[state.modo];
+    
+    const colorNames = {
+        black: 'Negro',
+        blue: 'Azul',
+        pink: 'Rosa',
+        transparent: 'Cristal Transparente'
+    };
+    
+    const inclusionNames = {
+        verano: 'Verano (Arena dorada)',
+        flores: 'Flores secas',
+        glitter: 'Glitter dorado'
+    };
+    
+    const mensaje = `
+¡Hola RADIANZA! 🌟
+
+Quiero realizar un pedido:
+
+📦 *Tipo:* ${tipo}
+${detalle}
+🎨 *Color base:* ${colorNames[state.color]}
+✨ *Inclusiones:* ${inclusionNames[state.inclusion]}
+
+💰 *Precio:* $${precio.toLocaleString('es-AR')}
+
+¿Podemos coordinar los detalles?
+    `.trim();
+    
+    // Encode for URL
+    const mensajeCodificado = encodeURIComponent(mensaje);
+    
+    // WhatsApp URL (replace with real phone number)
+    const whatsappURL = `https://wa.me/5491234567890?text=${mensajeCodificado}`;
+    
+    // Open WhatsApp
+    window.open(whatsappURL, '_blank');
+}
+
+// === INTERSECTION OBSERVER (Optional smooth reveal) ===
+function setupScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Observe sections (optional enhancement)
+    document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(30px)';
+        section.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        observer.observe(section);
+    });
+}
+
+// === KEYBOARD SHORTCUTS ===
+document.addEventListener('keydown', (e) => {
+    // Press 'L' to switch to Letra mode
+    if (e.key.toLowerCase() === 'l' && !e.target.matches('input')) {
+        const letraBtn = document.querySelector('[data-modo="letra"]');
+        if (letraBtn) letraBtn.click();
+    }
+    
+    // Press 'T' to switch to Tarjeta mode
+    if (e.key.toLowerCase() === 't' && !e.target.matches('input')) {
+        const tarjetaBtn = document.querySelector('[data-modo="tarjeta"]');
+        if (tarjetaBtn) tarjetaBtn.click();
+    }
 });
 
+// === RUN ON PAGE LOAD ===
 document.addEventListener('DOMContentLoaded', () => {
+    init();
+    // setupScrollAnimations(); // Uncomment for extra smooth reveals
     
-    // --- REFERENCIAS AL DOM (Elementos HTML) ---
-    const dom = {
-        views: {
-            letter: document.getElementById('view-letter'),
-            card: document.getElementById('view-card')
-        },
-        elements: {
-            letterDisplay: document.getElementById('letter-display'),
-            cardBase: document.getElementById('card-base'),
-            cardPhoto: document.getElementById('card-photo'),
-            cardTheme: document.getElementById('card-theme'),
-            priceTag: document.getElementById('price-tag')
-        },
-        controls: {
-            btnLetter: document.getElementById('btn-mode-letter'),
-            btnCard: document.getElementById('btn-mode-card'),
-            panelLetter: document.getElementById('controls-letter-input'),
-            panelCard: document.getElementById('controls-card-upload'),
-            inputLetter: document.getElementById('input-letter'),
-            inputUpload: document.getElementById('input-upload'),
-            colorBtns: document.querySelectorAll('.color-btn'),
-            themeBtns: document.querySelectorAll('.theme-btn')
-        }
-    };
-
-    // --- ESTADO INICIAL ---
-    let state = {
-        mode: 'letter', // 'letter' o 'card'
-        basePrice: 6500
-    };
-
-    // --- FUNCIONES ---
-
-    const updatePrice = () => {
-        dom.elements.priceTag.innerText = "$" + state.basePrice.toLocaleString('es-AR');
-    };
-
-    const setMode = (newMode) => {
-        state.mode = newMode;
-
-        if (newMode === 'letter') {
-            // Mostrar Vista Letra
-            dom.views.letter.classList.remove('hidden');
-            dom.views.card.classList.add('hidden');
-            
-            // Paneles
-            dom.controls.panelLetter.classList.remove('hidden');
-            dom.controls.panelCard.classList.add('hidden');
-
-            // Estilos Botones (Activo/Inactivo)
-            dom.controls.btnLetter.className = "flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg";
-            dom.controls.btnCard.className = "flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-all";
-
-            state.basePrice = 6500;
-        } else {
-            // Mostrar Vista Tarjeta
-            dom.views.letter.classList.add('hidden');
-            dom.views.card.classList.remove('hidden');
-
-            // Paneles
-            dom.controls.panelCard.classList.remove('hidden');
-            dom.controls.panelLetter.classList.add('hidden');
-
-            // Estilos Botones
-            dom.controls.btnCard.className = "flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg";
-            dom.controls.btnLetter.className = "flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-all";
-
-            state.basePrice = 5000;
-        }
-        updatePrice();
-    };
-
-    const updateLetter = (val) => {
-        dom.elements.letterDisplay.innerText = val ? val.toUpperCase() : "A";
-    };
-
-    const setResinColor = (color) => {
-        if (state.mode === 'letter') {
-            const el = dom.elements.letterDisplay;
-            if(color === 'transparent') {
-                el.style.backgroundImage = "url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg')";
-                el.style.webkitTextFillColor = "transparent";
-            } else {
-                el.style.backgroundImage = `linear-gradient(135deg, ${color} 0%, #ffffff 50%, ${color} 100%)`;
-                el.style.webkitTextFillColor = "transparent"; 
-            }
-        } else {
-            const el = dom.elements.cardBase;
-            if(color === 'transparent') {
-                el.style.backgroundColor = "rgba(255,255,255,0.1)";
-            } else {
-                el.style.backgroundColor = color;
-            }
-        }
-    };
-
-    const setTheme = (theme) => {
-        let imgUrl = "";
-        let blendMode = "overlay";
-
-        // Mapeo de temas
-        const themes = {
-            'summer': { url: "url('https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg')", blend: "soft-light" },
-            'flowers': { url: "url('https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg')", blend: "multiply" },
-            'glitter': { url: "url('https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg')", blend: "screen" }
-        };
-
-        if (state.mode === 'letter') {
-            if (theme === 'none') {
-                dom.elements.letterDisplay.style.filter = "none";
-                // Forzar re-render suave del color base si es necesario
-                // (En versiones simples solo quitamos la imagen extra si la hubiera)
-            } else if (themes[theme]) {
-                dom.elements.letterDisplay.style.backgroundImage = themes[theme].url;
-            }
-        } else {
-            // Modo Tarjeta
-            const el = dom.elements.cardTheme;
-            if (theme === 'none') {
-                el.style.opacity = 0;
-            } else if (themes[theme]) {
-                el.style.backgroundImage = themes[theme].url;
-                el.style.mixBlendMode = themes[theme].blend;
-                el.style.opacity = 0.6;
-            }
-        }
-    };
-
-    const handleUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                dom.elements.cardPhoto.style.backgroundImage = `url(${evt.target.result})`;
-                dom.elements.cardPhoto.style.opacity = 1;
-            }
-            reader.readAsDataURL(file);
-        }
-    };
-
-    // --- EVENT LISTENERS (Escuchadores de eventos) ---
-    
-    // Botones de Modo
-    dom.controls.btnLetter.addEventListener('click', () => setMode('letter'));
-    dom.controls.btnCard.addEventListener('click', () => setMode('card'));
-
-    // Input Letra
-    dom.controls.inputLetter.addEventListener('input', (e) => updateLetter(e.target.value));
-
-    // Upload Foto
-    dom.controls.inputUpload.addEventListener('change', handleUpload);
-
-    // Botones de Color (Delegación simple o iteración)
-    dom.controls.colorBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            setResinColor(btn.dataset.color);
-        });
-    });
-
-    // Botones de Tema
-    dom.controls.themeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // El click puede ser en la imagen o span, buscamos el botón padre
-            const targetBtn = btn.closest('button'); 
-            setTheme(targetBtn.dataset.theme);
-        });
-    });
-
-    // Iniciar
-    setMode('letter');
+    console.log('🌟 RADIANZA Dark Luxury - Sistema cargado correctamente');
+    console.log('💡 Tip: Usa las teclas "L" y "T" para cambiar rápidamente entre modos');
 });
-          
+
+// === UTILS ===
+// Add CSS animation helper
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+`;
+document.head.appendChild(style);
