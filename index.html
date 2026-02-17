@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RADIANZA | Arte en Resina</title>
+    <title>RADIANZA | Configurador</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="css/styles.css">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'radianza-bg': '#050510',     // Fondo principal
-                        'radianza-card': '#0f172a',   // Fondo tarjetas
-                        'radianza-gold': '#d4af37',   // Dorado marca
+                        'radianza-bg': '#050510',
+                        'radianza-gold': '#d4af37',
                     },
                     fontFamily: {
                         'serif': ['Cinzel', 'serif'],
@@ -31,15 +31,15 @@
             }
         }
     </script>
-
-<body class="text-white font-sans antialiased pb-32 bg-[#050510]">
+</head>
+<body class="text-white font-sans antialiased pb-32 bg-radianza-bg">
 
     <div class="fixed top-0 left-0 w-full z-50 bg-[#0f1015]/90 backdrop-blur-md border-b border-white/10 pt-4 pb-2 px-4">
         <div class="flex bg-white/5 p-1 rounded-xl">
-            <button onclick="setMode('letter')" id="btn-mode-letter" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg">
+            <button id="btn-mode-letter" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg">
                 Letra
             </button>
-            <button onclick="setMode('card')" id="btn-mode-card" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-all">
+            <button id="btn-mode-card" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-all">
                 Tarjeta Sube
             </button>
         </div>
@@ -48,31 +48,24 @@
     <main class="pt-24 min-h-screen">
         
         <div class="relative w-full h-[45vh] flex items-center justify-center overflow-hidden mb-4">
-            
             <div id="ambient-light" class="absolute w-80 h-80 bg-radianza-gold/10 rounded-full blur-[100px] animate-pulse-slow transition-colors duration-1000"></div>
 
-            <div class="relative z-10 drop-shadow-2xl filter transition-all duration-500" id="preview-container">
+            <div class="relative z-10 drop-shadow-2xl transition-all duration-500" id="preview-container">
                 
                 <div id="view-letter" class="relative text-[180px] font-black leading-none select-none transition-transform duration-300">
                     <span id="letter-display" class="block bg-clip-text text-transparent bg-cover bg-center" 
                           style="background-image: url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg'); -webkit-background-clip: text; color: transparent;">
                         A
                     </span>
-                    <div id="letter-overlay" class="absolute inset-0 w-full h-full mix-blend-overlay opacity-0 pointer-events-none"></div>
                 </div>
 
                 <div id="view-card" class="hidden relative w-[200px] h-[320px] rounded-xl overflow-hidden border border-white/20 shadow-inner group">
                     <div id="card-base" class="absolute inset-0 bg-blue-900/80 transition-colors duration-500"></div>
-                    
-                    <div id="card-photo" class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-overlay transition-opacity" style=""></div>
-                    
+                    <div id="card-photo" class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-overlay transition-opacity"></div>
                     <div id="card-theme" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 mix-blend-screen"></div>
-
                     <div class="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-3 rounded-full bg-[#050510] shadow-[inset_0_2px_5px_rgba(0,0,0,1)] z-20"></div>
-
                     <div class="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 z-10 pointer-events-none"></div>
                 </div>
-
             </div>
 
             <div class="absolute bottom-4 right-6 bg-black/60 backdrop-blur px-4 py-2 rounded-full border border-white/10">
@@ -83,56 +76,49 @@
         <div class="px-5 pb-32">
             
             <div id="controls-letter-input" class="mb-6">
-                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Elige tu Letra</h3>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2 mask-linear">
-                    <input type="text" maxlength="1" placeholder="Escribe..." 
-                           class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-center text-2xl font-bold uppercase focus:border-radianza-gold focus:outline-none transition-colors"
-                           oninput="updateLetter(this.value)">
-                </div>
+                <h3 class="control-title">1. Elige tu Letra</h3>
+                <input type="text" maxlength="1" placeholder="Escribe..." id="input-letter"
+                       class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-center text-2xl font-bold uppercase focus:border-radianza-gold focus:outline-none transition-colors">
             </div>
 
             <div id="controls-card-upload" class="mb-6 hidden">
-                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Imagen Personalizada</h3>
-                <label class="flex items-center justify-center w-full h-16 border-2 border-dashed border-white/20 rounded-xl bg-white/5 cursor-pointer hover:border-radianza-gold transition-colors">
+                <h3 class="control-title">1. Imagen Personalizada</h3>
+                <label class="upload-box">
                     <div class="flex items-center gap-2 text-gray-400">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span class="text-sm font-bold">Subir Foto / Sticker</span>
                     </div>
-                    <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this)">
+                    <input type="file" class="hidden" accept="image/*" id="input-upload">
                 </label>
             </div>
 
             <div class="mb-6">
-                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">2. Color de Resina</h3>
+                <h3 class="control-title">2. Color de Resina</h3>
                 <div class="grid grid-cols-5 gap-3">
-                    <button onclick="setResinColor('transparent')" class="aspect-square rounded-full border border-white/30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-white/10 shadow-lg"></button>
-                    <button onclick="setResinColor('#000000')" class="aspect-square rounded-full border border-white/10 bg-black shadow-lg"></button>
-                    <button onclick="setResinColor('#db2777')" class="aspect-square rounded-full border border-white/10 bg-pink-600 shadow-lg"></button>
-                    <button onclick="setResinColor('#1e40af')" class="aspect-square rounded-full border border-white/10 bg-blue-800 shadow-lg"></button>
-                    <button onclick="setResinColor('#d4af37')" class="aspect-square rounded-full border border-white/10 bg-yellow-600 shadow-lg"></button>
+                    <button class="color-btn bg-white/10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" data-color="transparent"></button>
+                    <button class="color-btn bg-black" data-color="#000000"></button>
+                    <button class="color-btn bg-pink-600" data-color="#db2777"></button>
+                    <button class="color-btn bg-blue-800" data-color="#1e40af"></button>
+                    <button class="color-btn bg-yellow-600" data-color="#d4af37"></button>
                 </div>
             </div>
 
             <div class="mb-6">
-                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">3. Temática / Inclusiones</h3>
+                <h3 class="control-title">3. Temática</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <button onclick="setTheme('summer')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
-                        <img src="https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
-                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">VERANO 🐚</span>
+                    <button class="theme-btn" data-theme="summer">
+                        <img src="https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg">
+                        <span>VERANO 🐚</span>
                     </button>
-                    
-                    <button onclick="setTheme('flowers')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
-                        <img src="https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
-                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">FLORES 🌸</span>
+                    <button class="theme-btn" data-theme="flowers">
+                        <img src="https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg">
+                        <span>FLORES 🌸</span>
                     </button>
-                    
-                    <button onclick="setTheme('glitter')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
-                        <img src="https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
-                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">GLITTER ✨</span>
+                    <button class="theme-btn" data-theme="glitter">
+                        <img src="https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg">
+                        <span>GLITTER ✨</span>
                     </button>
-
-                     <button onclick="setTheme('none')" class="relative h-20 rounded-xl border border-white/10 border-dashed flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors">
-                        <span class="text-xs font-bold uppercase">Sin Extras</span>
+                    <button class="theme-btn border-dashed justify-center text-gray-400" data-theme="none">
+                        <span class="relative z-10 font-bold uppercase text-xs">Sin Extras</span>
                     </button>
                 </div>
             </div>
@@ -143,152 +129,6 @@
         </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 w-full bg-[#0f1015]/95 backdrop-blur-lg border-t border-white/10 z-50 py-3 px-6 flex justify-around items-center pb-6">
-        <a href="#" class="flex flex-col items-center gap-1 text-radianza-gold"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="text-[10px]">Taller</span></a>
-        <a href="#" class="flex flex-col items-center gap-1 text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><span class="text-[10px]">Tienda</span></a>
-        <a href="#" class="flex flex-col items-center gap-1 text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg><span class="text-[10px]">Chat</span></a>
-    </nav>
-
-    <script>
-        const viewLetter = document.getElementById('view-letter');
-        const viewCard = document.getElementById('view-card');
-        const letterDisplay = document.getElementById('letter-display');
-        const cardBase = document.getElementById('card-base');
-        const cardPhoto = document.getElementById('card-photo');
-        const cardTheme = document.getElementById('card-theme');
-        const priceTag = document.getElementById('price-tag');
-        
-        let currentMode = 'letter';
-        let basePrice = 6500;
-
-        // 1. CAMBIAR MODO (LETRA vs TARJETA)
-        function setMode(mode) {
-            currentMode = mode;
-            const btnLetter = document.getElementById('btn-mode-letter');
-            const btnCard = document.getElementById('btn-mode-card');
-            const controlsLetter = document.getElementById('controls-letter-input');
-            const controlsCard = document.getElementById('controls-card-upload');
-
-            if (mode === 'letter') {
-                viewLetter.classList.remove('hidden');
-                viewCard.classList.add('hidden');
-                
-                // Estilos botones
-                btnLetter.classList.add('bg-radianza-gold', 'text-black', 'shadow-lg');
-                btnLetter.classList.remove('text-gray-400');
-                btnCard.classList.remove('bg-radianza-gold', 'text-black', 'shadow-lg');
-                btnCard.classList.add('text-gray-400');
-
-                // Controles
-                controlsLetter.classList.remove('hidden');
-                controlsCard.classList.add('hidden');
-                
-                basePrice = 6500; // Precio letra
-            } else {
-                viewLetter.classList.add('hidden');
-                viewCard.classList.remove('hidden');
-
-                // Estilos botones
-                btnCard.classList.add('bg-radianza-gold', 'text-black', 'shadow-lg');
-                btnCard.classList.remove('text-gray-400');
-                btnLetter.classList.remove('bg-radianza-gold', 'text-black', 'shadow-lg');
-                btnLetter.classList.add('text-gray-400');
-
-                // Controles
-                controlsCard.classList.remove('hidden');
-                controlsLetter.classList.add('hidden');
-
-                basePrice = 5000; // Precio tarjetero
-            }
-            updatePrice();
-        }
-
-        // 2. ACTUALIZAR LETRA
-        function updateLetter(val) {
-            if(val) {
-                letterDisplay.innerText = val.toUpperCase();
-            } else {
-                letterDisplay.innerText = "A"; // Default
-            }
-        }
-
-        // 3. CAMBIAR COLOR BASE (Aplica diferente según modo)
-        function setResinColor(color) {
-            if (currentMode === 'letter') {
-                // En modo letra, usamos el color como fondo del texto (con clip)
-                // Si es transparente, usamos una textura sutil, si es color, un gradiente
-                if(color === 'transparent') {
-                    letterDisplay.style.backgroundImage = "url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg')";
-                    letterDisplay.style.webkitTextFillColor = "transparent";
-                } else {
-                    // Gradiente para que parezca resina
-                    letterDisplay.style.backgroundImage = `linear-gradient(135deg, ${color} 0%, #ffffff 50%, ${color} 100%)`;
-                    // Truco para que parezca solido pero brillante
-                    letterDisplay.style.webkitTextFillColor = "transparent"; 
-                }
-            } else {
-                // Modo tarjeta (Fondo div)
-                if(color === 'transparent') {
-                    cardBase.style.backgroundColor = "rgba(255,255,255,0.1)";
-                } else {
-                    cardBase.style.backgroundColor = color;
-                }
-            }
-        }
-
-        // 4. APLICAR TEMAS (VERANO, ETC)
-        function setTheme(theme) {
-            let imgUrl = "";
-            let blendMode = "overlay";
-
-            if (theme === 'summer') {
-                imgUrl = "url('https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg')";
-                blendMode = "soft-light";
-            } else if (theme === 'flowers') {
-                imgUrl = "url('https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg')";
-                blendMode = "multiply"; // Las flores se ven mejor con multiply
-            } else if (theme === 'glitter') {
-                imgUrl = "url('https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg')";
-                blendMode = "screen"; // El brillo necesita screen
-            }
-
-            if (currentMode === 'letter') {
-                // Para letras es complejo superponer, simplificamos cambiando el fondo
-                if (theme === 'none') {
-                    // Restaurar base (simulado)
-                    letterDisplay.style.filter = "none";
-                } else {
-                    // Superponer tema
-                    letterDisplay.style.backgroundImage = imgUrl;
-                }
-            } else {
-                // Para tarjeta
-                if (theme === 'none') {
-                    cardTheme.style.opacity = 0;
-                } else {
-                    cardTheme.style.backgroundImage = imgUrl;
-                    cardTheme.style.mixBlendMode = blendMode;
-                    cardTheme.style.opacity = 0.6; // No tapar todo
-                }
-            }
-        }
-
-        // 5. SUBIR IMAGEN (SOLO TARJETA)
-        function uploadImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    cardPhoto.style.backgroundImage = `url(${e.target.result})`;
-                    cardPhoto.style.opacity = 1;
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function updatePrice() {
-            priceTag.innerText = "$" + basePrice.toLocaleString('es-AR');
-        }
-    </script>
-    </body>
-    
+    <script src="js/app.js"></script>
+</body>
 </html>
