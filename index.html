@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RADIANZA | Arte en Resina</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark-blue: #0a0a18;
+            --resin-purple: #1a1a3a;
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-blue);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        /* --- FONDO ANIMADO TIPO RESINA --- */
+        .resin-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(20, 20, 60, 0.8), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(80, 40, 120, 0.4), transparent 40%),
+                linear-gradient(135deg, #020205 0%, #0a0a20 50%, #050510 100%);
+            filter: contrast(120%) brightness(0.8);
+        }
+
+        /* Las "ondas" de la resina */
+        .resin-flow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 20%);
+            background-size: 50px 50px;
+            animation: flow 20s linear infinite;
+            opacity: 0.5;
+            z-index: -1;
+            transform: rotate(30deg);
+        }
+
+        @keyframes flow {
+            0% { transform: rotate(30deg) translateY(0); }
+            100% { transform: rotate(30deg) translateY(-50px); }
+        }
+
+        /* --- SPOTLIGHT DEL MOUSE --- */
+        #cursor-light {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            mix-blend-mode: screen; /* Esto hace que el dorado "brille" sobre el azul */
+            z-index: -1;
+            opacity: 0; /* Empieza invisible */
+            transition: opacity 0.5s ease;
+        }
+
+        /* --- CONTENIDO HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Título con efecto vidrio */
+        h1 {
+            font-family: 'Cinzel', serif; /* Fuente mística/elegante */
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 0.1em;
+            color: transparent;
+            background: linear-gradient(to bottom, #fff 20%, #aaa 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--gold);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards 0.5s;
+        }
+
+        .location {
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .location::before, .location::after {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        /* Botón estilo cristal */
+        .cta-btn {
+            margin-top: 50px;
+            padding: 15px 40px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            background: rgba(212, 175, 55, 0.1); /* Tinte dorado al hover */
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* Partículas doradas flotantes */
+        .particle {
+            position: absolute;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp 4s infinite ease-in-out;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="resin-bg"></div>
+    <div class="resin-flow"></div>
+    <div id="cursor-light"></div>
+
+    <section class="hero">
+        <div class="location">De Caleta Olivia al Mundo</div>
+        <h1>RADIANZA</h1>
+        <p class="subtitle">El arte de brillar ✨</p>
+        
+        <a href="#" class="cta-btn">Diseñar mi Pieza</a>
+    </section>
+
+    <script>
+        // 1. Efecto Spotlight (Linterna)
+        const light = document.getElementById('cursor-light');
+        
+        document.addEventListener('mousemove', (e) => {
+            // Hacemos visible la luz cuando se mueve el mouse
+            light.style.opacity = '1';
+            
+            // Movemos el gradiente a la posición del mouse
+            // Usamos requestAnimationFrame para mejor rendimiento
+            requestAnimationFrame(() => {
+                light.style.left = e.clientX + 'px';
+                light.style.top = e.clientY + 'px';
+            });
+        });
+
+        // 2. Generador de Partículas (Polvo de estrellas)
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 3 + 1; 
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Posición aleatoria en el ancho de la pantalla
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            
+            // Duración aleatoria
+            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            
+            document.body.appendChild(particle);
+
+            // Eliminar partícula después de la animación para no llenar la memoria
+            setTimeout(() => {
+                particle.remove();
+            }, 5000);
+        }
+
+        // Crear una partícula cada 300ms
+        setInterval(createParticle, 300);
+
+        // 3. Efecto Tilt 3D en el Título (Opcional, sutil)
+        const title = document.querySelector('h1');
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.clientX) / 50;
+            const y = (window.innerHeight / 2 - e.clientY) / 50;
+            
+            title.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+            title.style.transition = 'transform 0.1s ease';
+        });
+    </script>
+</body>
+</html>
+
