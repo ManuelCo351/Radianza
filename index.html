@@ -32,255 +32,263 @@
         }
     </script>
 
-    <style>
-        body {
-            background-color: #050510;
-            -webkit-tap-highlight-color: transparent;
-        }
+<body class="text-white font-sans antialiased pb-32 bg-[#050510]">
 
-        /* Ocultar scrollbars */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Loader de pantalla completa */
-        .loader-screen {
-            position: fixed; inset: 0; background: #000; z-index: 100;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        /* EFECTOS DEL CONFIGURADOR */
-        .resin-preview-container {
-            transition: all 0.5s ease;
-            box-shadow: 
-                0 20px 50px -10px rgba(0,0,0,0.5),
-                inset 0 0 40px rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Brillo superficial (Glossy) */
-        .glossy-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%, rgba(255,255,255,0.05) 100%);
-            pointer-events: none;
-            z-index: 20;
-        }
-
-        /* Patrón de partículas doradas */
-        .gold-pattern {
-            background-image: radial-gradient(#d4af37 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-    </style>
-</head>
-<body class="text-white font-sans antialiased pb-24">
-
-    <div id="loader" class="loader-screen">
-        <div class="text-center">
-            <h1 class="font-serif text-4xl text-radianza-gold tracking-[0.2em] opacity-0" id="loader-text">RADIANZA</h1>
-            <p class="text-xs text-gray-500 mt-2 tracking-widest uppercase opacity-0" id="loader-sub">Caleta Olivia</p>
+    <div class="fixed top-0 left-0 w-full z-50 bg-[#0f1015]/90 backdrop-blur-md border-b border-white/10 pt-4 pb-2 px-4">
+        <div class="flex bg-white/5 p-1 rounded-xl">
+            <button onclick="setMode('letter')" id="btn-mode-letter" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg">
+                Letra
+            </button>
+            <button onclick="setMode('card')" id="btn-mode-card" class="flex-1 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-all">
+                Tarjeta Sube
+            </button>
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 w-full bg-[#0f1015]/90 backdrop-blur-lg border-t border-white/10 z-50 py-3 px-6 flex justify-around items-center pb-6">
-        <a href="#inicio" class="flex flex-col items-center gap-1 group">
-            <svg class="w-6 h-6 text-radianza-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span class="text-[10px] text-gray-400">Inicio</span>
-        </a>
+    <main class="pt-24 min-h-screen">
         
-        <a href="#taller" class="relative -top-8 bg-radianza-gold text-black p-4 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)] transform transition-transform active:scale-95">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-        </a>
-
-        <a href="#contacto" class="flex flex-col items-center gap-1 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-radianza-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-            <span class="text-[10px] text-gray-400">Contacto</span>
-        </a>
-    </nav>
-
-    <main>
-        <section id="inicio" class="min-h-screen relative flex flex-col justify-center items-center px-6 overflow-hidden pt-10">
-            <div class="absolute inset-0 z-[-1]">
-                <div class="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] bg-blue-900/20 rounded-full blur-[100px] animate-pulse-slow"></div>
-                <div class="absolute bottom-[20%] right-[-10%] w-[60vw] h-[60vw] bg-radianza-gold/10 rounded-full blur-[80px]"></div>
-            </div>
-
-            <p class="text-radianza-gold text-xs tracking-[0.3em] uppercase mb-4 hero-elem opacity-0 translate-y-4">El arte de brillar</p>
+        <div class="relative w-full h-[45vh] flex items-center justify-center overflow-hidden mb-4">
             
-            <h1 class="font-serif text-5xl text-center leading-tight mb-6 hero-elem opacity-0 translate-y-4">
-                <span class="block text-white drop-shadow-lg">Diseños en</span>
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-radianza-gold to-yellow-100 italic">Resina</span>
-            </h1>
+            <div id="ambient-light" class="absolute w-80 h-80 bg-radianza-gold/10 rounded-full blur-[100px] animate-pulse-slow transition-colors duration-1000"></div>
 
-            <p class="text-gray-400 text-center max-w-xs mb-10 font-light text-sm hero-elem opacity-0 translate-y-4">
-                Piezas únicas hechas a mano. Scroll para diseñar la tuya.
-            </p>
-
-            <div class="animate-bounce opacity-50 mt-10">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-            </div>
-        </section>
-
-        <section id="taller" class="min-h-screen py-12 px-0 bg-gradient-to-b from-radianza-bg to-[#0a0a1a]">
-            
-            <div class="px-6 mb-6 text-center">
-                <h2 class="font-serif text-2xl text-white">Tu Diseño</h2>
-                <p class="text-xs text-radianza-gold tracking-widest uppercase mt-1">Personalizador en vivo</p>
-            </div>
-
-            <div class="relative w-full h-[350px] bg-white/5 border-y border-white/10 flex items-center justify-center overflow-hidden mb-8">
-                <div class="absolute w-64 h-64 bg-radianza-gold/10 rounded-full blur-3xl"></div>
-
-                <div id="preview-piece" class="resin-preview-container w-48 h-64 rounded-xl bg-slate-800 flex items-center justify-center z-10">
-                    
-                    <div id="layer-flakes" class="gold-pattern absolute inset-0 z-10 w-full h-full mix-blend-overlay"></div>
-                    
-                    <div class="glossy-overlay rounded-inherit"></div>
-
-                    <span id="layer-text" class="font-serif text-5xl text-white/90 drop-shadow-lg font-bold z-30 transition-all transform scale-0"></span>
-                    
-                    <div class="absolute bottom-4 opacity-30 w-4 h-4 rounded-full border border-white/50 flex items-center justify-center text-[8px] z-20">R</div>
-                </div>
-
-                <div class="absolute top-4 right-4 bg-black/40 backdrop-blur px-3 py-1 rounded-full border border-white/10">
-                    <span id="price-display" class="text-radianza-gold font-bold font-serif">$4.500</span>
-                </div>
-            </div>
-
-            <div class="px-6">
-                <div class="mb-8">
-                    <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Forma</h3>
-                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                        <button onclick="setShape('square')" class="flex flex-col items-center gap-2 group">
-                            <div class="w-14 h-14 bg-white/5 rounded-lg border border-white/10 group-active:border-radianza-gold flex items-center justify-center transition-colors">
-                                <div class="w-6 h-6 bg-gray-500 rounded"></div>
-                            </div>
-                            <span class="text-[10px] text-gray-400">Cuadrado</span>
-                        </button>
-                        <button onclick="setShape('circle')" class="flex flex-col items-center gap-2 group">
-                            <div class="w-14 h-14 bg-white/5 rounded-lg border border-white/10 group-active:border-radianza-gold flex items-center justify-center transition-colors">
-                                <div class="w-6 h-6 bg-gray-500 rounded-full"></div>
-                            </div>
-                            <span class="text-[10px] text-gray-400">Círculo</span>
-                        </button>
-                        <button onclick="setShape('pill')" class="flex flex-col items-center gap-2 group">
-                            <div class="w-14 h-14 bg-white/5 rounded-lg border border-white/10 group-active:border-radianza-gold flex items-center justify-center transition-colors">
-                                <div class="w-4 h-8 bg-gray-500 rounded-full"></div>
-                            </div>
-                            <span class="text-[10px] text-gray-400">Llavero</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="mb-8">
-                    <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">2. Pigmento</h3>
-                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-                        <button onclick="setColor('#0f172a')" class="w-10 h-10 rounded-full bg-slate-900 border-2 border-white/20 shadow-lg"></button>
-                        <button onclick="setColor('#000000')" class="w-10 h-10 rounded-full bg-black border-2 border-white/20 shadow-lg"></button>
-                        <button onclick="setColor('#450a0a')" class="w-10 h-10 rounded-full bg-red-950 border-2 border-white/20 shadow-lg"></button>
-                        <button onclick="setColor('#14532d')" class="w-10 h-10 rounded-full bg-green-900 border-2 border-white/20 shadow-lg"></button>
-                        <button onclick="setColor('#713f12')" class="w-10 h-10 rounded-full bg-yellow-900 border-2 border-white/20 shadow-lg"></button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-                        <label class="text-xs text-gray-400 block mb-2">Inicial</label>
-                        <input type="text" maxlength="1" oninput="setText(this.value)" class="w-full bg-transparent border-b border-white/20 text-center text-xl text-radianza-gold font-serif focus:outline-none focus:border-radianza-gold uppercase" placeholder="?">
-                    </div>
-
-                    <div class="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-between" onclick="toggleFlakes()">
-                        <label class="text-xs text-gray-400">Hojas de Oro</label>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-xs text-radianza-gold font-bold">+$500</span>
-                            <div class="w-4 h-4 rounded-full border border-white/30" id="flake-indicator"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="relative z-10 drop-shadow-2xl filter transition-all duration-500" id="preview-container">
                 
-                <button class="w-full mt-8 bg-radianza-gold text-black font-bold font-serif py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.3)] active:scale-95 transition-transform uppercase tracking-widest text-sm">
-                    Pedir Diseño
-                </button>
+                <div id="view-letter" class="relative text-[180px] font-black leading-none select-none transition-transform duration-300">
+                    <span id="letter-display" class="block bg-clip-text text-transparent bg-cover bg-center" 
+                          style="background-image: url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg'); -webkit-background-clip: text; color: transparent;">
+                        A
+                    </span>
+                    <div id="letter-overlay" class="absolute inset-0 w-full h-full mix-blend-overlay opacity-0 pointer-events-none"></div>
+                </div>
+
+                <div id="view-card" class="hidden relative w-[200px] h-[320px] rounded-xl overflow-hidden border border-white/20 shadow-inner group">
+                    <div id="card-base" class="absolute inset-0 bg-blue-900/80 transition-colors duration-500"></div>
+                    
+                    <div id="card-photo" class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-overlay transition-opacity" style=""></div>
+                    
+                    <div id="card-theme" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 mix-blend-screen"></div>
+
+                    <div class="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-3 rounded-full bg-[#050510] shadow-[inset_0_2px_5px_rgba(0,0,0,1)] z-20"></div>
+
+                    <div class="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-50 z-10 pointer-events-none"></div>
+                </div>
 
             </div>
-        </section>
 
+            <div class="absolute bottom-4 right-6 bg-black/60 backdrop-blur px-4 py-2 rounded-full border border-white/10">
+                <span id="price-tag" class="text-radianza-gold font-bold font-serif text-lg">$6.500</span>
+            </div>
+        </div>
+
+        <div class="px-5 pb-32">
+            
+            <div id="controls-letter-input" class="mb-6">
+                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Elige tu Letra</h3>
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2 mask-linear">
+                    <input type="text" maxlength="1" placeholder="Escribe..." 
+                           class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-center text-2xl font-bold uppercase focus:border-radianza-gold focus:outline-none transition-colors"
+                           oninput="updateLetter(this.value)">
+                </div>
+            </div>
+
+            <div id="controls-card-upload" class="mb-6 hidden">
+                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Imagen Personalizada</h3>
+                <label class="flex items-center justify-center w-full h-16 border-2 border-dashed border-white/20 rounded-xl bg-white/5 cursor-pointer hover:border-radianza-gold transition-colors">
+                    <div class="flex items-center gap-2 text-gray-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span class="text-sm font-bold">Subir Foto / Sticker</span>
+                    </div>
+                    <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this)">
+                </label>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">2. Color de Resina</h3>
+                <div class="grid grid-cols-5 gap-3">
+                    <button onclick="setResinColor('transparent')" class="aspect-square rounded-full border border-white/30 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-white/10 shadow-lg"></button>
+                    <button onclick="setResinColor('#000000')" class="aspect-square rounded-full border border-white/10 bg-black shadow-lg"></button>
+                    <button onclick="setResinColor('#db2777')" class="aspect-square rounded-full border border-white/10 bg-pink-600 shadow-lg"></button>
+                    <button onclick="setResinColor('#1e40af')" class="aspect-square rounded-full border border-white/10 bg-blue-800 shadow-lg"></button>
+                    <button onclick="setResinColor('#d4af37')" class="aspect-square rounded-full border border-white/10 bg-yellow-600 shadow-lg"></button>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">3. Temática / Inclusiones</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="setTheme('summer')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
+                        <img src="https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
+                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">VERANO 🐚</span>
+                    </button>
+                    
+                    <button onclick="setTheme('flowers')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
+                        <img src="https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
+                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">FLORES 🌸</span>
+                    </button>
+                    
+                    <button onclick="setTheme('glitter')" class="relative h-20 rounded-xl overflow-hidden border border-white/10 group">
+                        <img src="https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform">
+                        <span class="absolute inset-0 flex items-center justify-center font-bold text-white shadow-black drop-shadow-md bg-black/30">GLITTER ✨</span>
+                    </button>
+
+                     <button onclick="setTheme('none')" class="relative h-20 rounded-xl border border-white/10 border-dashed flex items-center justify-center text-gray-400 hover:text-white hover:border-white transition-colors">
+                        <span class="text-xs font-bold uppercase">Sin Extras</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="w-full bg-radianza-gold text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.4)] active:scale-95 transition-transform uppercase tracking-widest">
+                Terminar Pedido
+            </button>
+        </div>
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <nav class="fixed bottom-0 left-0 w-full bg-[#0f1015]/95 backdrop-blur-lg border-t border-white/10 z-50 py-3 px-6 flex justify-around items-center pb-6">
+        <a href="#" class="flex flex-col items-center gap-1 text-radianza-gold"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="text-[10px]">Taller</span></a>
+        <a href="#" class="flex flex-col items-center gap-1 text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg><span class="text-[10px]">Tienda</span></a>
+        <a href="#" class="flex flex-col items-center gap-1 text-gray-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg><span class="text-[10px]">Chat</span></a>
+    </nav>
+
     <script>
-        // --- 1. ANIMACIONES DE ENTRADA (GSAP) ---
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to("#loader-text", { opacity: 1, duration: 1, y: 0 })
-              .to("#loader-sub", { opacity: 1, duration: 0.8 }, "-=0.5")
-              .to("#loader", { yPercent: -100, duration: 1, ease: "power2.inOut", delay: 0.5 })
-              .to(".hero-elem", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=0.5");
-        });
+        const viewLetter = document.getElementById('view-letter');
+        const viewCard = document.getElementById('view-card');
+        const letterDisplay = document.getElementById('letter-display');
+        const cardBase = document.getElementById('card-base');
+        const cardPhoto = document.getElementById('card-photo');
+        const cardTheme = document.getElementById('card-theme');
+        const priceTag = document.getElementById('price-tag');
+        
+        let currentMode = 'letter';
+        let basePrice = 6500;
 
-        // --- 2. LÓGICA DEL TALLER (Vanilla JS Simple) ---
-        const preview = document.getElementById('preview-piece');
-        const textLayer = document.getElementById('layer-text');
-        const flakeLayer = document.getElementById('layer-flakes');
-        const priceDisplay = document.getElementById('price-display');
-        const flakeInd = document.getElementById('flake-indicator');
+        // 1. CAMBIAR MODO (LETRA vs TARJETA)
+        function setMode(mode) {
+            currentMode = mode;
+            const btnLetter = document.getElementById('btn-mode-letter');
+            const btnCard = document.getElementById('btn-mode-card');
+            const controlsLetter = document.getElementById('controls-letter-input');
+            const controlsCard = document.getElementById('controls-card-upload');
 
-        let basePrice = 4500;
-        let flakePrice = 0;
-        let flakesActive = false;
+            if (mode === 'letter') {
+                viewLetter.classList.remove('hidden');
+                viewCard.classList.add('hidden');
+                
+                // Estilos botones
+                btnLetter.classList.add('bg-radianza-gold', 'text-black', 'shadow-lg');
+                btnLetter.classList.remove('text-gray-400');
+                btnCard.classList.remove('bg-radianza-gold', 'text-black', 'shadow-lg');
+                btnCard.classList.add('text-gray-400');
 
-        // Cambiar Forma (Usa clases de Tailwind)
-        function setShape(shape) {
-            // Resetea formas
-            preview.className = preview.className.replace(/rounded-\S+/g, '');
-            preview.classList.add('transition-all'); // asegurar transición
-            
-            if(shape === 'square') preview.classList.add('rounded-lg');
-            if(shape === 'circle') preview.classList.add('rounded-full');
-            if(shape === 'pill') preview.classList.add('rounded-[50px]'); // Estilo llavero
-
-            // Animación de "click"
-            gsap.fromTo(preview, {scale: 0.9}, {scale: 1, duration: 0.3, ease: "back.out(1.7)"});
-        }
-
-        // Cambiar Color
-        function setColor(hex) {
-            preview.style.backgroundColor = hex;
-        }
-
-        // Poner Texto
-        function setText(val) {
-            textLayer.innerText = val;
-            if(val) {
-                textLayer.style.transform = "scale(1)";
+                // Controles
+                controlsLetter.classList.remove('hidden');
+                controlsCard.classList.add('hidden');
+                
+                basePrice = 6500; // Precio letra
             } else {
-                textLayer.style.transform = "scale(0)";
-            }
-        }
+                viewLetter.classList.add('hidden');
+                viewCard.classList.remove('hidden');
 
-        // Toggle Brillos
-        function toggleFlakes() {
-            flakesActive = !flakesActive;
-            if(flakesActive) {
-                flakeLayer.style.opacity = 1;
-                flakeInd.style.backgroundColor = "#d4af37";
-                flakePrice = 500;
-            } else {
-                flakeLayer.style.opacity = 0;
-                flakeInd.style.backgroundColor = "transparent";
-                flakePrice = 0;
+                // Estilos botones
+                btnCard.classList.add('bg-radianza-gold', 'text-black', 'shadow-lg');
+                btnCard.classList.remove('text-gray-400');
+                btnLetter.classList.remove('bg-radianza-gold', 'text-black', 'shadow-lg');
+                btnLetter.classList.add('text-gray-400');
+
+                // Controles
+                controlsCard.classList.remove('hidden');
+                controlsLetter.classList.add('hidden');
+
+                basePrice = 5000; // Precio tarjetero
             }
             updatePrice();
         }
 
+        // 2. ACTUALIZAR LETRA
+        function updateLetter(val) {
+            if(val) {
+                letterDisplay.innerText = val.toUpperCase();
+            } else {
+                letterDisplay.innerText = "A"; // Default
+            }
+        }
+
+        // 3. CAMBIAR COLOR BASE (Aplica diferente según modo)
+        function setResinColor(color) {
+            if (currentMode === 'letter') {
+                // En modo letra, usamos el color como fondo del texto (con clip)
+                // Si es transparente, usamos una textura sutil, si es color, un gradiente
+                if(color === 'transparent') {
+                    letterDisplay.style.backgroundImage = "url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg')";
+                    letterDisplay.style.webkitTextFillColor = "transparent";
+                } else {
+                    // Gradiente para que parezca resina
+                    letterDisplay.style.backgroundImage = `linear-gradient(135deg, ${color} 0%, #ffffff 50%, ${color} 100%)`;
+                    // Truco para que parezca solido pero brillante
+                    letterDisplay.style.webkitTextFillColor = "transparent"; 
+                }
+            } else {
+                // Modo tarjeta (Fondo div)
+                if(color === 'transparent') {
+                    cardBase.style.backgroundColor = "rgba(255,255,255,0.1)";
+                } else {
+                    cardBase.style.backgroundColor = color;
+                }
+            }
+        }
+
+        // 4. APLICAR TEMAS (VERANO, ETC)
+        function setTheme(theme) {
+            let imgUrl = "";
+            let blendMode = "overlay";
+
+            if (theme === 'summer') {
+                imgUrl = "url('https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg')";
+                blendMode = "soft-light";
+            } else if (theme === 'flowers') {
+                imgUrl = "url('https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg')";
+                blendMode = "multiply"; // Las flores se ven mejor con multiply
+            } else if (theme === 'glitter') {
+                imgUrl = "url('https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg')";
+                blendMode = "screen"; // El brillo necesita screen
+            }
+
+            if (currentMode === 'letter') {
+                // Para letras es complejo superponer, simplificamos cambiando el fondo
+                if (theme === 'none') {
+                    // Restaurar base (simulado)
+                    letterDisplay.style.filter = "none";
+                } else {
+                    // Superponer tema
+                    letterDisplay.style.backgroundImage = imgUrl;
+                }
+            } else {
+                // Para tarjeta
+                if (theme === 'none') {
+                    cardTheme.style.opacity = 0;
+                } else {
+                    cardTheme.style.backgroundImage = imgUrl;
+                    cardTheme.style.mixBlendMode = blendMode;
+                    cardTheme.style.opacity = 0.6; // No tapar todo
+                }
+            }
+        }
+
+        // 5. SUBIR IMAGEN (SOLO TARJETA)
+        function uploadImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    cardPhoto.style.backgroundImage = `url(${e.target.result})`;
+                    cardPhoto.style.opacity = 1;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function updatePrice() {
-            let total = basePrice + flakePrice;
-            priceDisplay.innerText = "$" + total.toLocaleString('es-AR');
-            // Animación precio
-            gsap.from(priceDisplay, {scale: 1.2, color: "#fff", duration: 0.2});
+            priceTag.innerText = "$" + basePrice.toLocaleString('es-AR');
         }
     </script>
-</body>
+    </body>
+    
 </html>
