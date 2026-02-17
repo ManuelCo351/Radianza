@@ -172,7 +172,162 @@
                 <div class="min-w-[20px]"></div>
             </div>
         </section>
+        <section class="min-h-screen relative pt-10 pb-32 overflow-hidden" id="configurator">
+            
+            <div class="px-6 mb-8 relative z-10">
+                <span class="text-radianza-gold text-xs tracking-widest uppercase">Personalización</span>
+                <h2 class="font-serif text-3xl text-white mt-1">Crea tu Pieza</h2>
+                <p class="text-gray-400 text-sm mt-2">Diseña en tiempo real. Nosotros lo hacemos realidad.</p>
+            </div>
 
+            <div class="relative w-full h-[45vh] flex justify-center items-center">
+                
+                <div class="absolute w-64 h-64 rounded-full bg-gradient-to-tr from-radianza-gold/20 to-transparent blur-[50px] animate-pulse"></div>
+
+                <div class="relative w-64 h-64 drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-500 hover:scale-105" id="product-preview">
+                    
+                    <svg viewBox="0 0 200 200" class="w-full h-full absolute top-0 left-0">
+                        <path id="resin-base" d="M100 10 L190 55 L190 145 L100 190 L10 145 L10 55 Z" 
+                              fill="#ffffff" opacity="0.1" stroke="rgba(255,255,255,0.3)" stroke-width="1"
+                              class="transition-all duration-700 ease-in-out" />
+                    </svg>
+
+                    <div id="texture-layer" class="absolute inset-0 w-full h-full opacity-0 transition-opacity duration-500 pointer-events-none mix-blend-overlay">
+                        <div class="w-full h-full" style="background-image: radial-gradient(circle, #ffd700 2px, transparent 2.5px); background-size: 30px 30px;"></div>
+                        <div class="w-full h-full absolute top-0 left-0" style="background-image: radial-gradient(circle, #fff 1px, transparent 1.5px); background-size: 15px 15px; opacity:0.5"></div>
+                    </div>
+
+                    <div class="absolute inset-0 flex justify-center items-center z-20">
+                        <span id="preview-text" class="font-serif text-6xl text-radianza-gold drop-shadow-md opacity-0 scale-50 transition-all duration-500"></span>
+                    </div>
+
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none" style="clip-path: polygon(50% 5%, 95% 27.5%, 95% 72.5%, 50% 95%, 5% 72.5%, 5% 27.5%);"></div>
+                </div>
+
+                <div class="absolute bottom-4 right-6 bg-white/10 backdrop-blur-md px-4 py-2 rounded-lg border border-white/20">
+                    <span class="text-xs text-gray-300 block">Total estimado</span>
+                    <span class="text-xl font-bold text-radianza-gold" id="total-price">$0</span>
+                </div>
+            </div>
+
+            <div class="bg-gray-900/80 backdrop-blur-xl border-t border-white/10 rounded-t-3xl p-6 absolute w-full bottom-[80px]"> <div class="flex gap-4 mb-6 border-b border-white/10 pb-2 overflow-x-auto no-scrollbar">
+                    <button onclick="setStep('shape')" class="text-radianza-gold font-bold text-sm whitespace-nowrap pb-2 border-b-2 border-radianza-gold">1. Forma</button>
+                    <button onclick="setStep('color')" class="text-gray-400 hover:text-white text-sm whitespace-nowrap pb-2">2. Color</button>
+                    <button onclick="setStep('addons')" class="text-gray-400 hover:text-white text-sm whitespace-nowrap pb-2">3. Detalles</button>
+                </div>
+
+                <div id="controls-area">
+                    
+                    <div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+                        <button onclick="changeColor('#ffffff', 0.1)" class="w-12 h-12 rounded-full border-2 border-white/30 bg-gray-800 flex-shrink-0 relative overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                        </button>
+                        <button onclick="changeColor('#0a0a20', 0.9)" class="w-12 h-12 rounded-full border-2 border-transparent focus:border-radianza-gold bg-[#0a0a20] flex-shrink-0 shadow-lg transform active:scale-90 transition-all"></button>
+                        <button onclick="changeColor('#4a0404', 0.8)" class="w-12 h-12 rounded-full border-2 border-transparent focus:border-radianza-gold bg-[#4a0404] flex-shrink-0 shadow-lg transform active:scale-90 transition-all"></button>
+                        <button onclick="changeColor('#023020', 0.8)" class="w-12 h-12 rounded-full border-2 border-transparent focus:border-radianza-gold bg-[#023020] flex-shrink-0 shadow-lg transform active:scale-90 transition-all"></button>
+                        <button onclick="changeColor('#000000', 0.95)" class="w-12 h-12 rounded-full border-2 border-transparent focus:border-radianza-gold bg-black flex-shrink-0 shadow-lg transform active:scale-90 transition-all"></button>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-400">✨</div>
+                            <div>
+                                <h4 class="text-white text-sm font-bold">Hojas de Oro</h4>
+                                <p class="text-gray-500 text-xs">Añade textura premium</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="gold-toggle" class="sr-only peer" onchange="toggleTexture(this)">
+                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-radianza-gold"></div>
+                        </label>
+                    </div>
+
+                    <div class="mt-4">
+                         <input type="text" placeholder="Tu inicial o nombre..." maxlength="1" 
+                                class="w-full bg-transparent border-b border-white/20 py-2 text-white font-serif text-xl focus:outline-none focus:border-radianza-gold transition-colors text-center"
+                                oninput="updateText(this.value)">
+                    </div>
+
+                    <button class="w-full mt-6 bg-radianza-gold text-black font-bold py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.4)] active:scale-95 transition-transform flex justify-center items-center gap-2">
+                        <span>Añadir al Carrito</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+<script>
+    let currentPrice = 5000; // Precio base
+    const priceDisplay = document.getElementById('total-price');
+    const resinBase = document.getElementById('resin-base');
+    const textureLayer = document.getElementById('texture-layer');
+    const previewText = document.getElementById('preview-text');
+
+    // Inicializar precio
+    updatePrice(0);
+
+    function updatePrice(amount) {
+        currentPrice += amount;
+        priceDisplay.innerText = `$${currentPrice.toLocaleString('es-AR')}`;
+        
+        // Animación pequeña en el precio
+        gsap.from(priceDisplay, { scale: 1.5, color: '#fff', duration: 0.3 });
+    }
+
+    // 1. Cambiar Color (Simula el tinte de la resina)
+    function changeColor(color, opacity) {
+        // Animamos el cambio de color para que parezca que se mezcla
+        gsap.to(resinBase, {
+            fill: color,
+            opacity: opacity,
+            duration: 1,
+            ease: "power2.inOut"
+        });
+        
+        // Simular precio por pigmentos especiales
+        updatePrice(0); // Aquí podrías sumar si ciertos colores son más caros
+    }
+
+    // 2. Activar/Desactivar Textura (Hojas de oro)
+    function toggleTexture(checkbox) {
+        if(checkbox.checked) {
+            textureLayer.style.opacity = '1';
+            updatePrice(1500); // Costo extra
+            
+            // Animación de entrada de las partículas
+            gsap.fromTo("#texture-layer div", 
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1 }
+            );
+        } else {
+            textureLayer.style.opacity = '0';
+            updatePrice(-1500);
+        }
+    }
+
+    // 3. Actualizar Texto (Inicial)
+    function updateText(val) {
+        previewText.innerText = val.toUpperCase();
+        if(val.length > 0) {
+            previewText.style.opacity = '1';
+            previewText.style.transform = 'scale(1)';
+        } else {
+            previewText.style.opacity = '0';
+            previewText.style.transform = 'scale(0.5)';
+        }
+    }
+
+    // Funcionalidad de Tabs (Visual por ahora)
+    function setStep(step) {
+        // Aquí cambiarías el contenido del div #controls-area dinámicamente
+        // Por simplicidad en este ejemplo mostré todo junto, pero 
+        // en la versión final ocultaríamos divs.
+        
+        const btns = document.querySelectorAll('#controls-area button');
+        // Lógica simple para resaltar el tab activo...
+    }
+</script>
+        
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
