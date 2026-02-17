@@ -1,205 +1,342 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RADIANZA | Arte en Resina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RADIANZA | Dark Luxury Resin</title>
     
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'radianza-bg': '#050510',     // Fondo principal oscuro
-                        'radianza-card': '#0f172a',   // Fondo tarjetas
-                        'radianza-gold': '#d4af37',   // Dorado marca
-                    },
-                    fontFamily: {
-                        'serif': ['Cinzel', 'serif'],
-                        'sans': ['Montserrat', 'sans-serif'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-<body class="text-white font-sans antialiased bg-radianza-bg pb-24 selection:bg-radianza-gold selection:text-black">
-
-    <div id="loader" class="fixed inset-0 bg-black z-[100] flex flex-col justify-center items-center transition-transform duration-1000 ease-in-out">
-        <h1 class="font-serif text-4xl text-radianza-gold tracking-[0.2em] opacity-0 translate-y-4 transition-all duration-1000" id="loader-text">RADIANZA</h1>
-        <p class="text-xs text-gray-500 mt-2 tracking-widest uppercase opacity-0 translate-y-4 transition-all duration-1000 delay-200" id="loader-sub">Caleta Olivia</p>
+<body class="bg-midnight text-white overflow-x-hidden">
+    
+    <!-- LOADER -->
+    <div id="loader" class="fixed inset-0 z-[9999] bg-black flex items-center justify-center">
+        <div class="loader-content">
+            <h1 class="text-6xl md:text-8xl font-cinzel font-bold text-gold tracking-widest">RADIANZA</h1>
+            <div class="loader-line mt-8"></div>
+        </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 w-full bg-[#0f1015]/90 backdrop-blur-lg border-t border-white/10 z-50 py-3 px-6 flex justify-around items-center pb-6 md:pb-3">
-        <a href="#inicio" class="flex flex-col items-center gap-1 group">
-            <svg class="w-6 h-6 text-radianza-gold group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.8)] transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span class="text-[10px] text-gray-400">Inicio</span>
-        </a>
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Animated Blobs Background -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
         
-        <a href="#taller" class="relative -top-6 bg-radianza-gold text-black p-4 rounded-full shadow-[0_0_20px_rgba(212,175,55,0.4)] transform transition-transform active:scale-95 border-4 border-radianza-bg">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-        </a>
+        <div class="hero-content relative z-10 text-center px-6 max-w-6xl mx-auto">
+            <span class="hero-subtitle block text-gold text-sm md:text-base tracking-[0.3em] mb-6 font-montserrat font-light uppercase opacity-0">Caleta Olivia, Argentina</span>
+            <h1 class="hero-title text-5xl md:text-7xl lg:text-8xl font-cinzel font-black mb-6 leading-tight opacity-0">
+                Dark Luxury<br/>
+                <span class="text-gold">En Resina</span>
+            </h1>
+            <p class="hero-description text-lg md:text-xl text-gray-300 font-montserrat font-light max-w-2xl mx-auto mb-12 opacity-0">
+                Creaciones únicas en resina epoxi. Personaliza tu estilo con piezas que combinan elegancia oscura y detalles dorados.
+            </p>
+            <button class="hero-cta inline-block bg-gold text-midnight px-12 py-4 rounded-full font-montserrat font-semibold text-lg hover:bg-opacity-90 transition-all duration-300 opacity-0 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50">
+                Explorar Taller
+            </button>
+        </div>
 
-        <a href="#contacto" class="flex flex-col items-center gap-1 group">
-            <svg class="w-6 h-6 text-gray-400 group-hover:text-radianza-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-            <span class="text-[10px] text-gray-400">Contacto</span>
-        </a>
-    </nav>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator opacity-0">
+            <div class="w-6 h-10 border-2 border-gold/50 rounded-full flex justify-center pt-2">
+                <div class="w-1 h-3 bg-gold rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <section id="inicio" class="min-h-screen relative flex flex-col justify-center items-center px-6 overflow-hidden pt-10">
-            
-            <div class="absolute inset-0 z-[-1]">
-                <div class="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] bg-indigo-900/30 rounded-full blur-[100px] animate-pulse-slow"></div>
-                <div class="absolute bottom-[20%] right-[-10%] w-[60vw] h-[60vw] bg-radianza-gold/10 rounded-full blur-[80px]"></div>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="glass-card p-8 md:p-12 rounded-3xl">
+                    <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Sobre Nosotros</span>
+                    <h2 class="text-4xl md:text-5xl font-cinzel font-bold mb-6">La Esencia de <span class="text-gold">RADIANZA</span></h2>
+                    <p class="text-gray-300 font-montserrat leading-relaxed mb-6">
+                        Cada pieza es una obra de arte diseñada para reflejar tu personalidad. Utilizamos resina epoxi de alta calidad y técnicas artesanales para crear accesorios únicos.
+                    </p>
+                    <p class="text-gray-300 font-montserrat leading-relaxed">
+                        Desde Caleta Olivia, Argentina, llevamos el concepto de <span class="text-gold font-semibold">Dark Luxury</span> a otro nivel.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
+                        <div class="text-4xl mb-4">✨</div>
+                        <h3 class="font-cinzel text-xl mb-2">Personalización</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">100% a medida</p>
+                    </div>
+                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
+                        <div class="text-4xl mb-4">🎨</div>
+                        <h3 class="font-cinzel text-xl mb-2">Artesanal</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Hecho a mano</p>
+                    </div>
+                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
+                        <div class="text-4xl mb-4">💎</div>
+                        <h3 class="font-cinzel text-xl mb-2">Calidad</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Resina premium</p>
+                    </div>
+                    <div class="feature-card glass-card p-6 rounded-2xl text-center">
+                        <div class="text-4xl mb-4">🌟</div>
+                        <h3 class="font-cinzel text-xl mb-2">Exclusivo</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Piezas únicas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EL TALLER (CONFIGURADOR INTERACTIVO) -->
+    <section id="taller" class="relative py-20 px-6 min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Configurador</span>
+                <h2 class="text-4xl md:text-6xl font-cinzel font-bold mb-4">El Taller <span class="text-gold">RADIANZA</span></h2>
+                <p class="text-gray-400 font-montserrat">Diseña tu pieza personalizada en tiempo real</p>
             </div>
 
-            <div class="text-center z-10">
-                <p class="text-radianza-gold text-xs tracking-[0.3em] uppercase mb-4 hero-elem opacity-0 translate-y-8 transition-all duration-700 delay-500">
-                    El arte de brillar
-                </p>
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
                 
-                <h1 class="font-serif text-5xl md:text-7xl leading-tight mb-6 hero-elem opacity-0 translate-y-8 transition-all duration-700 delay-700">
-                    <span class="block text-white drop-shadow-2xl">Diseños en</span>
-                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-radianza-gold via-yellow-200 to-radianza-gold italic">
-                        Resina
-                    </span>
-                </h1>
+                <!-- PREVIEW PANEL -->
+                <div class="glass-card p-8 rounded-3xl sticky top-8">
+                    <div class="aspect-square flex items-center justify-center bg-gradient-to-br from-deep-blue to-midnight rounded-2xl overflow-hidden relative preview-container">
+                        <!-- Modo Letra Preview -->
+                        <div id="previewLetra" class="preview-mode active">
+                            <div id="letraDisplay" class="letra-display text-[20rem] font-cinzel font-black">
+                                A
+                            </div>
+                        </div>
 
-                <p class="text-gray-400 max-w-xs mx-auto mb-10 font-light text-sm hero-elem opacity-0 translate-y-8 transition-all duration-700 delay-900">
-                    Piezas únicas hechas a mano. Captura momentos, inmortaliza recuerdos.
+                        <!-- Modo Tarjeta Preview -->
+                        <div id="previewTarjeta" class="preview-mode">
+                            <div id="tarjetaDisplay" class="tarjeta-display">
+                                <div class="tarjeta-hole"></div>
+                                <div id="tarjetaImage" class="tarjeta-image"></div>
+                                <div class="tarjeta-overlay"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precio Dinámico -->
+                    <div class="mt-8 text-center">
+                        <div class="inline-flex items-center gap-3 glass-card px-8 py-4 rounded-full">
+                            <span class="text-gray-400 font-montserrat">Precio:</span>
+                            <span id="precioDisplay" class="text-4xl font-cinzel font-bold text-gold">$6.500</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <button id="btnPedido" class="w-full mt-6 bg-gold text-midnight px-8 py-4 rounded-full font-montserrat font-bold text-lg hover:bg-opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-gold/50">
+                        Realizar Pedido
+                    </button>
+                </div>
+
+                <!-- CONTROLS PANEL -->
+                <div class="space-y-6">
+                    
+                    <!-- Modo Selector (Tabs) -->
+                    <div class="glass-card p-6 rounded-3xl">
+                        <h3 class="font-cinzel text-2xl mb-4 text-gold">Selecciona el Formato</h3>
+                        <div class="flex gap-4">
+                            <button class="modo-btn active" data-modo="letra">
+                                <span class="text-3xl block mb-2">🔤</span>
+                                <span class="font-montserrat font-semibold">Letra</span>
+                                <span class="text-xs block text-gray-400 mt-1">Molde Inverso</span>
+                            </button>
+                            <button class="modo-btn" data-modo="tarjeta">
+                                <span class="text-3xl block mb-2">💳</span>
+                                <span class="font-montserrat font-semibold">Tarjeta</span>
+                                <span class="text-xs block text-gray-400 mt-1">Porta SUBE</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Input Letra (Condicional) -->
+                    <div id="inputLetra" class="glass-card p-6 rounded-3xl control-panel">
+                        <h3 class="font-cinzel text-xl mb-4">Elige tu Inicial</h3>
+                        <input type="text" id="letraInput" maxlength="1" placeholder="A" 
+                               class="w-full bg-midnight/50 border-2 border-gold/30 rounded-xl px-6 py-4 text-center text-4xl font-cinzel font-bold text-gold focus:outline-none focus:border-gold transition-all uppercase">
+                    </div>
+
+                    <!-- Input Tarjeta (Condicional) -->
+                    <div id="inputTarjeta" class="glass-card p-6 rounded-3xl control-panel hidden">
+                        <h3 class="font-cinzel text-xl mb-4">Sube tu Imagen</h3>
+                        <div class="relative">
+                            <input type="file" id="tarjetaInput" accept="image/*" class="hidden">
+                            <label for="tarjetaInput" class="block w-full bg-midnight/50 border-2 border-gold/30 border-dashed rounded-xl px-6 py-8 text-center cursor-pointer hover:border-gold transition-all">
+                                <div class="text-4xl mb-2">📷</div>
+                                <div class="font-montserrat text-sm text-gray-400">Haz clic para subir una foto</div>
+                                <div class="font-montserrat text-xs text-gray-500 mt-2">JPG, PNG (Max 5MB)</div>
+                            </label>
+                        </div>
+                        <div id="imagePreviewName" class="mt-3 text-sm text-gold font-montserrat text-center hidden"></div>
+                    </div>
+
+                    <!-- Color Base -->
+                    <div class="glass-card p-6 rounded-3xl">
+                        <h3 class="font-cinzel text-xl mb-4">Color Base</h3>
+                        <div class="grid grid-cols-4 gap-3">
+                            <button class="color-btn active" data-color="black" style="background: #0a0a0a;">
+                                <span class="color-check">✓</span>
+                            </button>
+                            <button class="color-btn" data-color="blue" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
+                                <span class="color-check">✓</span>
+                            </button>
+                            <button class="color-btn" data-color="pink" style="background: linear-gradient(135deg, #9d174d, #ec4899);">
+                                <span class="color-check">✓</span>
+                            </button>
+                            <button class="color-btn" data-color="transparent" style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3)); border: 2px solid rgba(212,175,55,0.3);">
+                                <span class="color-check">✓</span>
+                            </button>
+                        </div>
+                        <div class="flex justify-between mt-3 text-xs font-montserrat text-gray-400">
+                            <span>Negro</span>
+                            <span>Azul</span>
+                            <span>Rosa</span>
+                            <span>Cristal</span>
+                        </div>
+                    </div>
+
+                    <!-- Temática/Inclusiones -->
+                    <div class="glass-card p-6 rounded-3xl">
+                        <h3 class="font-cinzel text-xl mb-4">Inclusiones</h3>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button class="inclusion-btn active" data-inclusion="verano">
+                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80');"></div>
+                                <span class="inclusion-label">Verano</span>
+                            </button>
+                            <button class="inclusion-btn" data-inclusion="flores">
+                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&q=80');"></div>
+                                <span class="inclusion-label">Flores</span>
+                            </button>
+                            <button class="inclusion-btn" data-inclusion="glitter">
+                                <div class="inclusion-image" style="background-image: url('https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400&q=80');"></div>
+                                <span class="inclusion-label">Glitter</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="gallery" class="relative py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Portfolio</span>
+                <h2 class="text-4xl md:text-5xl font-cinzel font-bold">Nuestras <span class="text-gold">Creaciones</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="aspect-square bg-gradient-to-br from-gold/20 to-midnight relative overflow-hidden">
+                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl font-cinzel text-gold">A</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-cinzel text-lg">Letra Personalizada</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Con flores secas</p>
+                    </div>
+                </div>
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="aspect-square bg-gradient-to-br from-blue-900 to-midnight relative overflow-hidden">
+                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-32 h-48 bg-gradient-to-br from-blue-600 to-blue-900 rounded-lg"></div>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-cinzel text-lg">Porta SUBE</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Base azul cristal</p>
+                    </div>
+                </div>
+                <div class="gallery-item glass-card rounded-2xl overflow-hidden group cursor-pointer">
+                    <div class="aspect-square bg-gradient-to-br from-pink-900 to-midnight relative overflow-hidden">
+                        <div class="absolute inset-0 bg-midnight/50 group-hover:bg-midnight/20 transition-all duration-500"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-6xl font-cinzel text-pink-400">M</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-cinzel text-lg">Inicial Rosa</h3>
+                        <p class="text-sm text-gray-400 font-montserrat">Con glitter dorado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contacto" class="relative py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-card p-8 md:p-12 rounded-3xl text-center">
+                <span class="text-gold text-sm tracking-[0.3em] uppercase font-montserrat font-light mb-4 block">Contacto</span>
+                <h2 class="text-4xl md:text-5xl font-cinzel font-bold mb-6">Hablemos de tu <span class="text-gold">Pieza Única</span></h2>
+                <p class="text-gray-300 font-montserrat mb-8 max-w-2xl mx-auto">
+                    ¿Tienes una idea en mente? Contáctanos y trabajaremos juntos para crear tu pieza perfecta.
                 </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://wa.me/5491234567890" target="_blank" class="inline-flex items-center gap-3 bg-green-600 text-white px-8 py-4 rounded-full font-montserrat font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105">
+                        <span class="text-2xl">📱</span>
+                        WhatsApp
+                    </a>
+                    <a href="https://instagram.com/radianza" target="_blank" class="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-full font-montserrat font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105">
+                        <span class="text-2xl">📷</span>
+                        Instagram
+                    </a>
+                </div>
+                <div class="mt-8 pt-8 border-t border-gold/20">
+                    <p class="text-gray-400 font-montserrat text-sm">
+                        📍 Caleta Olivia, Santa Cruz, Argentina
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <a href="#taller" class="inline-block relative px-8 py-4 bg-white/5 border border-radianza-gold/30 rounded-full overflow-hidden group hero-elem opacity-0 translate-y-8 transition-all duration-700 delay-1000 backdrop-blur-sm hover:border-radianza-gold hover:bg-white/10">
-                    <span class="relative font-serif text-radianza-gold tracking-widest text-sm uppercase group-hover:text-white transition-colors">
-                        Diseñar mi Pieza
-                    </span>
+    <!-- FOOTER -->
+    <footer class="relative py-12 px-6 border-t border-gold/10">
+        <div class="max-w-6xl mx-auto text-center">
+            <h3 class="text-3xl font-cinzel font-bold text-gold mb-4">RADIANZA</h3>
+            <p class="text-gray-400 font-montserrat text-sm mb-6">Dark Luxury en Resina Epoxi</p>
+            <p class="text-gray-500 font-montserrat text-xs">© 2024 RADIANZA. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- BOTTOM NAVIGATION BAR (App Style) -->
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-50">
+        <div class="max-w-md mx-auto px-6">
+            <div class="glass-card rounded-t-3xl px-6 py-4 flex items-center justify-around relative">
+                <a href="#hero" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-gold transition-colors">
+                    <span class="text-2xl">🏠</span>
+                    <span class="text-xs font-montserrat">Inicio</span>
+                </a>
+                
+                <!-- Central Floating Button -->
+                <a href="#taller" class="nav-item-central absolute -top-8 left-1/2 -translate-x-1/2">
+                    <div class="w-16 h-16 bg-gradient-to-br from-gold to-yellow-600 rounded-full flex items-center justify-center text-3xl shadow-2xl shadow-gold/50 hover:scale-110 transition-transform">
+                        ⚡
+                    </div>
+                </a>
+                
+                <a href="#contacto" class="nav-item flex flex-col items-center gap-1 text-gray-400 hover:text-gold transition-colors">
+                    <span class="text-2xl">💬</span>
+                    <span class="text-xs font-montserrat">Contacto</span>
                 </a>
             </div>
-
-            <div class="absolute bottom-24 animate-bounce opacity-50 hero-elem transition-opacity duration-1000 delay-[1200ms]">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-            </div>
-        </section>
-
-        <section id="taller" class="min-h-screen">
-            <div class="py-12 px-0 bg-radianza-bg">
-    
-    <div class="px-6 mb-8 text-center">
-        <h2 class="font-serif text-2xl text-white">El Taller</h2>
-        <p class="text-xs text-radianza-gold tracking-widest uppercase mt-1">Personaliza tu Pieza</p>
-    </div>
-
-    <div class="px-6 mb-6">
-        <div class="flex bg-white/5 p-1 rounded-xl border border-white/10">
-            <button id="btn-mode-letter" class="flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest transition-all bg-radianza-gold text-black shadow-lg">
-                Letra
-            </button>
-            <button id="btn-mode-card" class="flex-1 py-3 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all">
-                Tarjeta Sube
-            </button>
         </div>
-    </div>
+    </nav>
 
-    <div class="relative w-full h-[400px] flex items-center justify-center overflow-hidden mb-8 bg-white/5 border-y border-white/10">
-        
-        <div class="absolute w-64 h-64 bg-radianza-gold/10 rounded-full blur-3xl animate-pulse"></div>
-
-        <div class="relative z-10 drop-shadow-2xl transition-all duration-500 transform hover:scale-105" id="preview-container">
-            
-            <div id="view-letter" class="relative text-[200px] font-black leading-none select-none transition-transform duration-300">
-                <span id="letter-display" class="block bg-clip-text text-transparent bg-cover bg-center font-serif" 
-                      style="background-image: url('https://img.freepik.com/free-photo/abstract-blue-paint-texture_1048-11264.jpg'); -webkit-background-clip: text; color: transparent;">
-                    A
-                </span>
-            </div>
-
-            <div id="view-card" class="hidden relative w-[200px] h-[320px] rounded-xl overflow-hidden border border-white/20 shadow-inner group bg-blue-900 transition-colors duration-500">
-                <div id="card-base" class="absolute inset-0 bg-blue-900/80 transition-colors duration-500"></div>
-                <div id="card-photo" class="absolute inset-0 bg-cover bg-center opacity-90 mix-blend-overlay transition-opacity"></div>
-                <div id="card-theme" class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 mix-blend-screen"></div>
-                <div class="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-3 rounded-full bg-[#050510] shadow-inner z-20"></div>
-                <div class="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-40 pointer-events-none z-10"></div>
-            </div>
-        </div>
-
-        <div class="absolute top-4 right-4 bg-black/60 backdrop-blur px-3 py-1 rounded-full border border-white/10">
-            <span id="price-tag" class="text-radianza-gold font-bold font-serif">$6.500</span>
-        </div>
-    </div>
-
-    <div class="px-6 pb-24">
-        
-        <div id="controls-letter" class="mb-8">
-            <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Tu Inicial</h3>
-            <input type="text" maxlength="1" id="input-letter" placeholder="A" 
-                   class="w-full bg-white/5 border-b border-white/20 p-4 text-center text-3xl font-serif text-radianza-gold focus:outline-none focus:border-radianza-gold transition-colors uppercase">
-        </div>
-
-        <div id="controls-card" class="mb-8 hidden">
-            <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">1. Imagen Personalizada</h3>
-            <label class="flex items-center justify-center w-full h-16 border-2 border-dashed border-white/20 rounded-xl bg-white/5 cursor-pointer hover:border-radianza-gold transition-colors group">
-                <div class="flex items-center gap-2 text-gray-400 group-hover:text-white">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <span class="text-sm font-bold uppercase tracking-wide">Subir Foto</span>
-                </div>
-                <input type="file" id="input-upload" class="hidden" accept="image/*">
-            </label>
-        </div>
-
-        <div class="mb-8">
-            <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">2. Pigmento Base</h3>
-            <div class="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-slate-900" data-color="#0f172a"></button>
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-black" data-color="#000000"></button>
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-pink-700" data-color="#be185d"></button>
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-blue-700" data-color="#1d4ed8"></button>
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-yellow-600" data-color="#d97706"></button>
-                <button class="color-btn w-12 h-12 rounded-full border border-white/20 shadow-lg shrink-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-white/10" data-color="transparent"></button>
-            </div>
-        </div>
-
-        <div class="mb-8">
-            <h3 class="text-xs text-gray-500 uppercase tracking-wider mb-3">3. Decoración</h3>
-            <div class="grid grid-cols-2 gap-3">
-                <button class="theme-btn relative h-16 rounded-lg overflow-hidden border border-white/10 group" data-theme="summer">
-                    <img src="https://img.freepik.com/free-photo/sand-texture-background-summer-vibe_53876-137785.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform">
-                    <span class="relative z-10 text-xs font-bold uppercase shadow-black drop-shadow-md">Verano</span>
-                </button>
-                <button class="theme-btn relative h-16 rounded-lg overflow-hidden border border-white/10 group" data-theme="flowers">
-                    <img src="https://img.freepik.com/free-photo/pressed-flowers-background_23-2149317822.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform">
-                    <span class="relative z-10 text-xs font-bold uppercase shadow-black drop-shadow-md">Flores</span>
-                </button>
-                <button class="theme-btn relative h-16 rounded-lg overflow-hidden border border-white/10 group" data-theme="glitter">
-                    <img src="https://img.freepik.com/free-photo/gold-glitter-texture-background_53876-101166.jpg" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform">
-                    <span class="relative z-10 text-xs font-bold uppercase shadow-black drop-shadow-md">Glitter</span>
-                </button>
-                <button class="theme-btn relative h-16 rounded-lg overflow-hidden border border-white/10 flex items-center justify-center bg-white/5" data-theme="none">
-                    <span class="text-xs text-gray-400 font-bold uppercase">Limpiar</span>
-                </button>
-            </div>
-        </div>
-
-        <button class="w-full bg-radianza-gold text-black font-bold font-serif py-4 rounded-xl shadow-[0_0_20px_rgba(212,175,55,0.4)] active:scale-95 transition-transform uppercase tracking-widest text-sm">
-            Confirmar Diseño
-        </button>
-    </div>
-            </div>
-            
-            </section>
-
-    </main>
-
+    <!-- JavaScript -->
     <script src="js/app.js"></script>
 </body>
 </html>
